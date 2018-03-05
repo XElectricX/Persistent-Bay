@@ -281,3 +281,11 @@ obj/item/weapon/reagent_containers/pill/noexcutite/New()
 		reagents.add_reagent(/datum/reagent/antidexafen, 10)
 		reagents.add_reagent(/datum/reagent/drink/juice/lemon, 5)
 		reagents.add_reagent(/datum/reagent/menthol, REM*0.2)
+
+/obj/item/weapon/reagent_containers/pill/shifter
+	name = "shifter"
+	desc = "An exotic and rare drug. Colloquially known as \"shifter\"."
+	icon_state = "pill16"
+	New()
+		..()
+		reagents.add_reagent(/datum/reagent/shifter, 10)

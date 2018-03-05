@@ -672,3 +672,59 @@
 		var/mob/living/carbon/human/H = M
 		H.zombieze()
 	remove_self(volume)
+
+/datum/reagent/shifter
+	name = "Shifter"
+	description = "An exotic and rare drug. Colloquially known as \"shifter\"."
+	taste_description = "mint"
+	taste_mult = 1.3
+	reagent_state = SOLID
+	color = "#32d7ff"
+	metabolism = REM * 2	//Fast-ish metabolism so drug takes effect quickly
+	overdose = 20
+	scannable = 1
+	var/messageshown = 0	//Stops the message from spamming for when you ingest the chemical the first time
+
+/datum/reagent/shifter/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
+	if(alien == IS_DIONA)
+		return
+
+	if(M.client)
+		if(!messageshown)
+			messageshown = 1
+			to_chat(M,"<span class='notice'>You feel oddly light, and somewhat disoriented as everything around you shimmers and warps ever so slightly.</span>")
+		M.overlay_fullscreen("bluespace", /obj/screen/fullscreen/bluespace_overlay)
+	if(prob(80))
+		M.adjustBrainLoss(3)	//Constant brain damage
+	if(prob(7))
+		M.emote(pick("twitch", "laugh", "shake", "tremble"))
+	if(!M.stuttering)
+		M.stuttering = 20	//Affects speech while it slowly destroys your brain :D
+	if(M.chem_doses[type] >= overdose)	//Gaining telekinesis requires you to OD; careful management to achieve this state while not dying
+		if(!(TK in M.mutations))
+			M.mutations.Add(TK)
+		var/obj/item/organ/internal/I = M.internal_organs_by_name[BP_EYES]	//Targetted eye damage
+		if(prob(3))
+			if(I)
+				var/dam = (M.chem_doses[type] * 0.1)	//Constant eye damage at a rate of 1/10 the dose
+				var/can_damage = I.max_damage - I.damage
+				if(can_damage > 0)
+					if(dam > can_damage)
+						I.take_damage(can_damage, silent=TRUE)
+						dam -= can_damage
+					else
+						I.take_damage(dam, silent=TRUE)
+						dam = 0
+	if(M.chem_doses[type] > 5 && M.chem_doses[type] < REAGENTS_OVERDOSE)	//During this period, you experience a high and imbalance
+		var/drug_strength = 15
+		M.druggy = max(M.druggy, drug_strength)
+		M.confused = 20
+	if(M.chem_doses[type] <= 5)	//This line is what causes the trippy bluespace overlay at the start of taking the drug
+		M.clear_fullscreen("bluespace")
+/* NEEDS TO BE FIXED, NO WAY TO REMOVE EFFECTS
+/datum/reagents/shifter/get_reagent_amount(var/reagent_type)
+	if(M.reagents.get_reagent_amount(/datum/reagent/shifter))
+		to_chat(M,"<span class='notice'>You feel rooted in material world again.</span>")
+		M.mutations.Remove(TK)	//No more TK for you, mister!
+*/
+		M.clear_fullscreen("bluespace")
