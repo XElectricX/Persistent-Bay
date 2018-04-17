@@ -8,7 +8,7 @@
 	icon_broken = "hydrosecurebroken"
 	icon_off = "hydrosecureoff"
 /*
-/obj/structure/closet/secure_closet/hydroponics/WillContain()
+/obj/structure/closet/secure_closet/hydroponics/WillContain() //Add the contents to Supply Crate.
 	return list(
 		new /datum/atom_creator/weighted(list(/obj/item/clothing/suit/apron, /obj/item/clothing/suit/apron/overalls)),
 		/obj/item/weapon/storage/plants,

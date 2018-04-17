@@ -6,7 +6,7 @@
 	program_menu_icon = "flag"
 	nanomodule_path = /datum/nano_module/program/faction_core
 	extended_desc = "Uses a Logistic Processor to connect to and modify bluespace networks over satalite."
-	required_access = access_heads
+	required_access = core_access_command_programs
 	requires_ntnet = 0
 	size = 65
 	usage_flags = PROGRAM_CONSOLE
@@ -106,14 +106,24 @@
 					))
 			data["assignment_categories"] = assignment_categories
 		if(menu == 8)
+			if(!selected_accesscategory)
+				menu = 6
+				return ui_interact(user, ui_key, ui, force_open, state)
 			var/list/accesses[0]
 			var/ind = 0
 			for(var/x in selected_accesscategory.accesses)
 				ind++
 				var/name = selected_accesscategory.accesses[x]
 				accesses[++accesses.len] = list("name" = "([x]) [name]", "ind" = ind)
-			data["accesses"] = accesses	
+			data["accesses"] = accesses
+		if(menu == 9)
+			if(!selected_access)
+				menu = 6
+				return ui_interact(user, ui_key, ui, force_open, state)
 		if(menu == 10) // assignment category view
+			if(!selected_assignmentcategory)
+				menu = 7
+				return ui_interact(user, ui_key, ui, force_open, state)
 			data["leader_faction"] = selected_assignmentcategory.command_faction
 			data["membership_faction"] = selected_assignmentcategory.member_faction
 			data["account_status"] = selected_assignmentcategory.account_status
@@ -124,6 +134,9 @@
 				assignments[++assignments.len] = list("name" = "([assignment.uid]) [assignment.name]", "ref" = "\ref[assignment]")
 			data["assignments"] = assignments
 		if(menu == 11)
+			if(!selected_assignment)
+				menu = 7
+				return ui_interact(user, ui_key, ui, force_open, state)
 			data["pay"] = selected_assignment.payscale
 			data["title"] = selected_assignment.name
 			var/list/access_categories[0]
@@ -154,6 +167,14 @@
 				ranks[++ranks.len] = list("name" = "[title]:[selected_assignment.ranks[title]]")
 			data["ranks"] = ranks
 			data["view_ranks"] = viewing_ranks
+		if(menu == 12)
+			data["money_rate"] = connected_faction.payrate
+			data["money_debt"] = connected_faction.get_debt()
+			data["money_balance"] = connected_faction.central_account.money
+		if(menu == 13)
+			data["rank1_req"] = connected_faction.all_promote_req
+			data["rank3_req"] = connected_faction.three_promote_req
+			data["rank5_req"] = connected_faction.five_promote_req
 	else
 		menu = 1
 	if(selected_accesscategory)
@@ -225,7 +246,7 @@
 			prior_menu = 3
 		if("change_name")
 			var/curr_name = connected_faction.name
-			var/select_name = sanitizeName(input(usr,"Enter the name of your orginization","Lognet Display Name", connected_faction.name) as null|text, MAX_NAME_LEN, 1, 0)
+			var/select_name = sanitizeName(input(usr,"Enter the name of your organization","Lognet Display Name", connected_faction.name) as null|text, MAX_NAME_LEN, 1, 0)
 			if(select_name)
 				if(curr_name != connected_faction.name)
 					to_chat(usr, "Your inputs expired because someone used the terminal first.")
@@ -238,7 +259,7 @@
 					to_chat(usr, "Lognet display name successfully changed.")
 		if("change_abbreviation")
 			var/curr_name = connected_faction.abbreviation
-			var/select_name = sanitizeName(input(usr,"Enter the abbreviation of your orginization","Lognet Abbreviation", connected_faction.abbreviation) as null|text, 20, 1, 0)
+			var/select_name = sanitizeName(input(usr,"Enter the abbreviation of your organization","Lognet Abbreviation", connected_faction.abbreviation) as null|text, 20, 1, 0)
 			if(select_name)
 				if(curr_name != connected_faction.abbreviation)
 					to_chat(usr, "Your inputs expired because someone used the terminal first.")
@@ -251,7 +272,7 @@
 					to_chat(usr, "Lognet abbreviation successfully changed.")
 		if("change_purpose")
 			var/curr_name = connected_faction.purpose
-			var/select_name = sanitize(input(usr,"Enter a description or purpose for your orginization.","Lognet Desc.", connected_faction.purpose) as null|text, 126)
+			var/select_name = sanitize(input(usr,"Enter a description or purpose for your organization.","Lognet Desc.", connected_faction.purpose) as null|text, 126)
 			if(select_name)
 				if(curr_name != connected_faction.purpose)
 					to_chat(usr, "Your inputs expired because someone used the terminal first.")
@@ -298,7 +319,7 @@
 			var/curr_name = connected_faction.network.password
 			var/select_name = sanitize(input(usr,"Enter new password. All connected terminals will need to update their password. Leave blank to have unsecured network.","Wireless Network Password") as null|text, 20)
 			if(select_name)
-				if(curr_name != connected_faction.password)
+				if(curr_name != connected_faction.network.password)
 					to_chat(usr, "Your inputs expired because someone used the terminal first.")
 				else
 					connected_faction.network.password = select_name
@@ -494,6 +515,15 @@
 					new_assignment.uid = select_name
 					selected_assignmentcategory2.assignments |= new_assignment
 					to_chat(usr, "Assignment successfully created.")
+		if("edit_assignmentcategory")
+			var/curr_name = selected_assignmentcategory.name
+			var/select_name = sanitizeName(input(usr,"Enter new assignment category name.","Edit Assignment Category", "") as null|text, MAX_NAME_LEN, 1, 0)
+			if(select_name)
+				if(curr_name != selected_assignmentcategory.name)
+					to_chat(usr, "Your inputs expired because someone used the terminal first.")
+					GLOB.nanomanager.update_uis(src)
+					return 1
+				selected_assignmentcategory.name = select_name
 		if("edit_assignment")
 			var/curr_name = selected_assignment.name
 			var/select_name = sanitizeName(input(usr,"Enter new rank 1 title.","Rank 1 Title", "") as null|text, MAX_NAME_LEN, 1, 0)
@@ -508,11 +538,22 @@
 			if(!new_pay && new_pay != 0) return 1
 			var/maximum = 10
 			if(selected_assignment.ranks.len)
-				var/x = selected_assignment
+				var/x = selected_assignment.ranks[selected_assignment.ranks.len]
 				maximum = selected_assignment.ranks[x]
 			if(new_pay > maximum)
 				to_chat(usr, "Payscale cannot be higher than 10 or the pay of the higher ranks.")
+				return
 			selected_assignment.payscale = new_pay
+		if("delete_assignmentcategory")
+			if(selected_assignmentcategory.assignments.len)
+				to_chat(usr,"You must delete all assignments inside a category before removing the category.")
+				return
+			var/choice = input(usr,"Are you sure you want to delete this assignment category?") in list("Confirm", "Cancel")
+			if(choice == "Confirm")
+				connected_faction.assignment_categories -= selected_assignmentcategory
+				qdel(selected_assignmentcategory)
+				to_chat(usr, "Assignment Category successfully deleted.")
+			menu = 8
 		if("delete_assignment")
 			var/choice = input(usr,"Are you sure you want to delete this assignment? All ranking data will be lost.") in list("Confirm", "Cancel")
 			if(choice == "Confirm")
@@ -586,6 +627,32 @@
 				selected_assignment.accesses -= x
 			else
 				selected_assignment.accesses |= x
-				
-				
+		if("money_change")
+			var/choice = input(usr,"Are you sure you want to change the payrate? This could bankrupt the network! Remember that the payrate is multiplied by an employees payscale") in list("Confirm", "Cancel")
+			if(choice == "Confirm")
+				var/selected_uid = input(usr,"Enter new payrate, 1000 is the maximum", "Enter Access Number") as null|num
+				if(!selected_uid || selected_uid < 0 || selected_uid > 1000)
+					to_chat(usr, "Invalid number.")
+					return 1
+				connected_faction.payrate = selected_uid
+		if("money_settle")
+			connected_faction.pay_debt()
+		if("req1_change")
+			var/selected_uid = input(usr,"How many any-rank promotion votes required? 100 is maximum", "Enter Access Number") as null|num
+			if(!selected_uid || selected_uid > 100)
+				to_chat(usr, "Invalid number.")
+				return 1
+			connected_faction.all_promote_req = selected_uid
+		if("req3_change")
+			var/selected_uid = input(usr,"How many rank 3+ promotion votes required? 100 is maximum", "Enter Access Number") as null|num
+			if(!selected_uid || selected_uid > 100)
+				to_chat(usr, "Invalid number.")
+				return 1
+			connected_faction.three_promote_req = selected_uid
+		if("req5_change")
+			var/selected_uid = input(usr,"How many rank 5+ promotion votes required? 100 is maximum", "Enter Access Number") as null|num
+			if(!selected_uid || selected_uid > 100)
+				to_chat(usr, "Invalid number.")
+				return 1
+			connected_faction.five_promote_req = selected_uid
 	GLOB.nanomanager.update_uis(src)

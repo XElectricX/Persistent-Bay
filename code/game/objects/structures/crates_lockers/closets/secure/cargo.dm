@@ -8,7 +8,7 @@
 	icon_broken = "securecargobroken"
 	icon_off = "securecargooff"
 /*
-/obj/structure/closet/secure_closet/cargotech/WillContain()
+/obj/structure/closet/secure_closet/cargotech/WillContain() //Add the contents to Supply Crate.
 	return list(
 		new/datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack = 75,  /obj/item/weapon/storage/backpack/satchel/grey = 25)),
 		new/datum/atom_creator/simple(/obj/item/weapon/storage/backpack/dufflebag, 25),

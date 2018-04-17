@@ -10,7 +10,7 @@
 	icon_closed = "bio_general"
 	icon_opened = "bio_generalopen"
 /*
-/obj/structure/closet/l3closet/general/WillContain()
+/obj/structure/closet/l3closet/general/WillContain() //Add the contents to Supply Crate.
 	return list(
 		/obj/item/clothing/suit/bio_suit/general,
 		/obj/item/clothing/head/bio_hood/general,
@@ -26,7 +26,6 @@
 		/obj/item/weapon/tank/emergency/oxygen/engi = 5
 	))
 */
-
 /obj/structure/closet/l3closet/virology
 	icon_state = "bio_virology"
 	icon_closed = "bio_virology"
@@ -40,7 +39,6 @@
 		/obj/item/weapon/tank/oxygen
 	)
 */
-
 /obj/structure/closet/l3closet/security
 	icon_state = "bio_security"
 	icon_closed = "bio_security"

@@ -8,7 +8,7 @@
 	icon_broken = "securecebroken"
 	icon_off = "secureceoff"
 /*
-/obj/structure/closet/secure_closet/engineering_chief/WillContain()
+/obj/structure/closet/secure_closet/engineering_chief/WillContain() //Add the contents to Supply Crate.
 	return list(
 		new/datum/atom_creator/weighted(list(/obj/item/clothing/accessory/storage/brown_vest = 70, /obj/item/clothing/accessory/storage/webbing = 30)),
 		new/datum/atom_creator/weighted(list(/obj/item/weapon/storage/backpack/industrial, /obj/item/weapon/storage/backpack/satchel_eng)),
@@ -30,17 +30,15 @@
 		/obj/item/weapon/crowbar/brace_jack
 	)
 */
-
 /obj/structure/closet/secure_closet/engineering_electrical
 	name = "electrical supplies"
-	req_access = list(access_engine_equip)
+	req_access = list(core_access_engineering_programs)
 	icon_state = "secureengelec1"
 	icon_closed = "secureengelec"
 	icon_locked = "secureengelec1"
 	icon_opened = "toolclosetopen"
 	icon_broken = "secureengelecbroken"
 	icon_off = "secureengelecoff"
-
 /*
 /obj/structure/closet/secure_closet/engineering_electrical/WillContain()
 	return list(
@@ -51,7 +49,6 @@
 		/obj/item/device/multitool = 3
 	)
 */
-
 /obj/structure/closet/secure_closet/engineering_welding
 	name = "welding supplies"
 	req_access = list(access_construction)
@@ -71,10 +68,9 @@
 		/obj/item/weapon/welder_tank = 6
 	)
 */
-
 /obj/structure/closet/secure_closet/engineering_personal
 	name = "engineer's locker"
-	req_access = list(access_engine_equip)
+	req_access = list(core_access_engineering_programs)
 	icon_state = "secureeng1"
 	icon_closed = "secureeng"
 	icon_locked = "secureeng1"
@@ -96,10 +92,9 @@
 		/obj/item/taperoll/engineering
 	)
 */
-
 /obj/structure/closet/secure_closet/atmos_personal
 	name = "technician's locker"
-	req_access = list(access_atmospherics)
+	req_access = list(core_access_engineering_programs)
 	icon_state = "secureatm1"
 	icon_closed = "secureatm"
 	icon_locked = "secureatm1"

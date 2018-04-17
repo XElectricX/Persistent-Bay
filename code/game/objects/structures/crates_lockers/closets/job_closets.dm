@@ -14,7 +14,7 @@
 	icon_state = "black"
 	icon_closed = "black"
 /*
-/obj/structure/closet/gmcloset/WillContain()
+/obj/structure/closet/gmcloset/WillContain() // Add items to supply crate.
 	return list(
 		/obj/item/clothing/head/that = 2,
 		/obj/item/device/radio/headset/headset_service = 2,
@@ -29,7 +29,6 @@
 		/obj/item/clothing/shoes/black = 2
 	)
 */
-
 /*
  * Chef
  */
@@ -49,7 +48,6 @@
 		/obj/item/clothing/head/chefhat
 	)
 */
-
 /*
  * Janitor
  */
@@ -58,7 +56,6 @@
 	desc = "It's a storage unit for janitorial clothes and gear."
 	icon_state = "mixed"
 	icon_closed = "mixed"
-
 /*
 /obj/structure/closet/jcloset/WillContain()
 	return list(
@@ -75,7 +72,6 @@
 		/obj/item/clothing/shoes/galoshes,
 		/obj/item/weapon/soap/nanotrasen)
 */
-
 /*
  * Lawyer
  */

@@ -23,7 +23,11 @@
 				CRASH("[src] spawned in [holder] without a parent organ: [parent_organ].")
 			E.internal_organs |= src
 			E.cavity_max_w_class = max(E.cavity_max_w_class, w_class)
-
+/obj/item/organ/internal/after_load()
+	var/mob/living/carbon/human/H = loc
+	if(istype(H))
+		var/obj/item/organ/external/E = H.get_organ(parent_organ)
+		E.cavity_max_w_class = max(E.cavity_max_w_class, w_class)
 /obj/item/organ/internal/Destroy()
 	if(owner)
 		owner.internal_organs.Remove(src)
@@ -131,3 +135,19 @@
 				if(damage < 5)
 					degree = " a bit"
 				owner.custom_pain("Something inside your [parent.name] hurts[degree].", amount, affecting = parent)
+
+/obj/item/organ/internal/proc/get_visible_state()
+	if(damage > max_damage)
+		. = "bits and pieces of a destroyed "
+	else if(is_broken())
+		. = "broken "
+	else if(is_bruised())
+		. = "badly damaged "
+	else if(damage > 5)
+		. = "damaged "
+	if(status & ORGAN_DEAD)
+		if(can_recover())
+			. = "decaying [.]"
+		else
+			. = "necrotic [.]"
+	. = "[.][name]"

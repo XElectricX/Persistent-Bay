@@ -4,7 +4,7 @@
 	icon_closed = "syndicate"
 	icon_opened = "syndicateopen"
 /*
-/obj/structure/closet/malf/suits/WillContain()
+/obj/structure/closet/malf/suits/WillContain() //Add the contents to Supply Crate.
 	return list(
 		/obj/item/weapon/tank/jetpack/void,
 		/obj/item/clothing/mask/breath,

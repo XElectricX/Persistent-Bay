@@ -19,7 +19,6 @@
 		/obj/item/weapon/clipboard
 	)
 */
-
 /obj/structure/closet/secure_closet/xenobio
 	name = "xenobiologist's locker"
 	req_access = list(access_xenobiology)
@@ -42,10 +41,9 @@
 		/obj/item/weapon/clipboard
 	)
 */
-
 /obj/structure/closet/secure_closet/RD
 	name = "research director's locker"
-	req_access = list(access_rd)
+	req_access = list(core_access_science_programs)
 	icon_state = "rdsecure1"
 	icon_closed = "rdsecure"
 	icon_locked = "rdsecure1"
@@ -72,10 +70,9 @@
 		/obj/item/clothing/suit/storage/toggle/labcoat/rd
 	)
 */
-
 /obj/structure/closet/secure_closet/animal
 	name = "animal control closet"
-	req_access = list(access_research)
+	req_access = list(core_access_science_programs)
 /*
 /obj/structure/closet/secure_closet/animal/WillContain()
 	return list(

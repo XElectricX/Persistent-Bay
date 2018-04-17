@@ -22,7 +22,7 @@
 	icon_off = "medicaloff"
 	req_access = list(access_medical_equip)
 /*
-/obj/structure/closet/secure_closet/medical1/WillContain()
+/obj/structure/closet/secure_closet/medical1/WillContain() //Add the contents to Supply Crate.
 	return list(
 		/obj/item/weapon/storage/box/autoinjectors,
 		/obj/item/weapon/storage/box/syringes,
@@ -35,7 +35,6 @@
 		/obj/item/weapon/storage/box/gloves
 	)
 */
-
 /obj/structure/closet/secure_closet/medical2
 	name = "anesthetics closet"
 	desc = "Used to knock people out."
@@ -53,7 +52,6 @@
 		/obj/item/clothing/mask/breath/medical = 3
 	)
 */
-
 /obj/structure/closet/secure_closet/medical3
 	name = "medical doctor's locker"
 	req_access = list(access_medical_equip)
@@ -83,7 +81,6 @@
 		RANDOM_SCRUBS
 	)
 */
-
 /obj/structure/closet/secure_closet/paramedic
 	name = "paramedic locker"
 	desc = "Supplies for a first responder."
@@ -119,7 +116,6 @@
 	    /obj/item/clothing/accessory/storage/white_vest,
 	)
 */
-
 /obj/structure/closet/secure_closet/CMO
 	name = "chief medical officer's locker"
 	req_access = list(access_cmo)
@@ -149,7 +145,6 @@
 		RANDOM_SCRUBS
 	)
 */
-
 /obj/structure/closet/secure_closet/chemical
 	name = "chemical closet"
 	desc = "Store dangerous chemicals in here."
@@ -168,7 +163,6 @@
 		/obj/random/medical = 12
 	)
 */
-
 /obj/structure/closet/secure_closet/medical_wall
 	name = "first aid closet"
 	desc = "It's a secure wall-mounted storage unit for first aid supplies."
@@ -218,7 +212,6 @@
 		/obj/item/toy/therapy_blue,
 	)
 */
-
 /obj/structure/closet/secure_closet/virology
 	name = "virologist's locker"
 	icon_state = "secureviro1"
@@ -249,7 +242,6 @@
 		/obj/item/clothing/glasses/hud/health
 	)
 */
-
 /obj/structure/closet/secure_closet/psychiatry
 	name = "Psychiatrist's locker"
 	desc = "Everything you need to keep the lunatics at bay."

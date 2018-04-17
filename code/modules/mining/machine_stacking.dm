@@ -7,18 +7,17 @@
 	density = 1
 	anchored = 1
 	var/obj/machinery/mineral/stacking_machine/machine = null
-	var/machinedir = SOUTHEAST
 
 /obj/machinery/mineral/stacking_unit_console/New()
 
 	..()
-
-	spawn(7)
-		src.machine = locate(/obj/machinery/mineral/stacking_machine, get_step(src, machinedir))
-		if (machine)
-			machine.console = src
-		else
-			qdel(src)
+	for(var/obj/machinery/mineral/processing_unit/unit in view(7, src))
+		src.machine = unit
+		break
+	if (machine)
+		machine.console = src
+	else
+		qdel(src)
 
 /obj/machinery/mineral/stacking_unit_console/attack_hand(mob/user)
 	add_fingerprint(user)
