@@ -20,6 +20,7 @@
 	var/denied = 0
 	var/build_eff = 1
 	var/eat_eff = 1
+	multiplier = 1
 	var/list/products = list(
 		"Food" = list(
 			/obj/item/weapon/reagent_containers/food/drinks/milk/smallcarton = 30,
@@ -42,7 +43,7 @@
 			/obj/item/clothing/suit/storage/toggle/bomber = 500,
 			/obj/item/clothing/suit/storage/hooded/wintercoat = 500),
 		"Other" = list(
-			/obj/item/weapon/paper_bundle = 20))
+			/obj/item/weapon/paper = 5))
 
 /obj/machinery/biogenerator/New()
 	..()
@@ -138,6 +139,7 @@
 	var/path
 	if (state == BG_READY)
 		data["points"] = points
+		data["multiplier"] = GetMultiplierForm(src)
 		var/list/listed_types = list()
 		for(var/c_type =1 to products.len)
 			type_name = products[c_type]
@@ -165,6 +167,10 @@
 /obj/machinery/biogenerator/Topic(href, href_list)
 	if(..())
 		return 1
+
+	if(ProcessMultiplierForm(src, href_list))
+		GLOB.nanomanager.update_uis(src)
+		return
 
 	switch (href_list["action"])
 		if("activate")
@@ -226,7 +232,7 @@
 	state = BG_PROCESSING
 	var/cost = products[type][path]
 	cost = round(cost/build_eff)
-	points -= cost
+	points -= cost * multiplier
 	GLOB.nanomanager.update_uis(src)
 	update_icon()
 	sleep(30)
