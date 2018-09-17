@@ -34,6 +34,7 @@
 	// Whether or not the accessory can be affected by colouration
 	var/do_colouration = 1
 
+	var/blend = ICON_ADD
 
 /*
 ////////////////////////////
@@ -823,7 +824,7 @@
 	name = "Shaved"
 	icon_state = "bald"
 	gender = NEUTER
-	species_allowed = list(SPECIES_HUMAN,SPECIES_UNATHI,SPECIES_TAJARA,SPECIES_SKRELL,SPECIES_VOX,SPECIES_IPC)
+	species_allowed = list(SPECIES_HUMAN,SPECIES_UNATHI,SPECIES_SKRELL,SPECIES_VOX,SPECIES_IPC)
 
 /datum/sprite_accessory/facial_hair/watson
 	name = "Watson Mustache"
@@ -975,6 +976,25 @@
 	icon_state = "soghun_horns"
 	species_allowed = list(SPECIES_UNATHI)
 
+/datum/sprite_accessory/hair/una
+	name = "Demon Horns"
+	icon = 'icons/mob/human_races/species/unathi/hair.dmi'
+	icon_state = "demon_horn"
+	blend = ICON_MULTIPLY
+	species_allowed = list(SPECIES_UNATHI)
+
+ /datum/sprite_accessory/hair/una/swept_horn
+	name = "Swept Horns"
+	icon_state = "swept_horn"
+
+ /datum/sprite_accessory/hair/una/ram_horn
+	name = "Ram Horns"
+	icon_state = "ram_horn"
+
+ /datum/sprite_accessory/hair/una/fin_hawk
+	name = "Fin Hawk"
+	icon_state = "fin_hawk"
+
 /datum/sprite_accessory/hair/skr_tentacle_m
 	name = "Skrell Male Tentacles"
 	icon_state = "skrell_hair_m"
@@ -987,133 +1007,19 @@
 	species_allowed = list(SPECIES_SKRELL)
 	gender = FEMALE
 
-/datum/sprite_accessory/hair/taj_ears
-	name = "Tajaran Ears"
-	icon_state = "ears_plain"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_clean
-	name = "Tajara Clean"
-	icon_state = "hair_clean"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_bangs
-	name = "Tajara Bangs"
-	icon_state = "hair_bangs"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_braid
-	name = "Tajara Braid"
-	icon_state = "hair_tbraid"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_shaggy
-	name = "Tajara Shaggy"
-	icon_state = "hair_shaggy"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_mohawk
-	name = "Tajaran Mohawk"
-	icon_state = "hair_mohawk"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_plait
-	name = "Tajara Plait"
-	icon_state = "hair_plait"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_straight
-	name = "Tajara Straight"
-	icon_state = "hair_straight"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_long
-	name = "Tajara Long"
-	icon_state = "hair_long"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_rattail
-	name = "Tajara Rat Tail"
-	icon_state = "hair_rattail"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_spiky
-	name = "Tajara Spiky"
-	icon_state = "hair_tajspiky"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_messy
-	name = "Tajara Messy"
-	icon_state = "hair_messy"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_curls
-	name = "Tajara Curly"
-	icon_state = "hair_curly"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_wife
-	name = "Tajara Housewife"
-	icon_state = "hair_wife"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_victory
-	name = "Tajara Victory Curls"
-	icon_state = "hair_victory"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_bob
-	name = "Tajara Bob"
-	icon_state = "hair_tbob"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/hair/taj_ears_fingercurl
-	name = "Tajara Finger Curls"
-	icon_state = "hair_fingerwave"
-	species_allowed = list(SPECIES_TAJARA)
-
 /datum/sprite_accessory/hair/vox_quills_long
 	name = "Long Vox Quills"
 	icon_state = "vox_longquills"
 	species_allowed = list(SPECIES_VOX)
 
 //facial hair
-
-/datum/sprite_accessory/facial_hair/taj_sideburns
-	name = "Tajara Sideburns"
-	icon_state = "facial_sideburns"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/facial_hair/taj_mutton
-	name = "Tajara Mutton"
-	icon_state = "facial_mutton"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/facial_hair/taj_pencilstache
-	name = "Tajara Pencilstache"
-	icon_state = "facial_pencilstache"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/facial_hair/taj_moustache
-	name = "Tajara Moustache"
-	icon_state = "facial_moustache"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/facial_hair/taj_goatee
-	name = "Tajara Goatee"
-	icon_state = "facial_goatee"
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/facial_hair/taj_smallstache
-	name = "Tajara Smallsatche"
-	icon_state = "facial_smallstache"
-	species_allowed = list(SPECIES_TAJARA)
+//
 
 //skin styles - WIP
 //going to have to re-integrate this with surgery
 //let the icon_state hold an icon preview for now
 /datum/sprite_accessory/skin
-	icon = 'icons/mob/human_races/r_human.dmi'
+	icon = 'icons/mob/human_races/species/human/body.dmi'
 
 /datum/sprite_accessory/skin/human
 	name = "Default human skin"
@@ -1125,22 +1031,16 @@
 	icon_state = "tatt1"
 	species_allowed = list(SPECIES_HUMAN)
 
-/datum/sprite_accessory/skin/tajaran
-	name = "Default tajaran skin"
-	icon_state = "default"
-	icon = 'icons/mob/human_races/r_tajaran.dmi'
-	species_allowed = list(SPECIES_TAJARA)
-
 /datum/sprite_accessory/skin/unathi
 	name = "Default Unathi skin"
 	icon_state = "default"
-	icon = 'icons/mob/human_races/r_lizard.dmi'
+	icon = 'icons/mob/human_races/species/unathi/body.dmi'
 	species_allowed = list(SPECIES_UNATHI)
 
 /datum/sprite_accessory/skin/skrell
 	name = "Default skrell skin"
 	icon_state = "default"
-	icon = 'icons/mob/human_races/r_skrell.dmi'
+	icon = 'icons/mob/human_races/species/skrell/body.dmi'
 	species_allowed = list(SPECIES_SKRELL)
 
 /*
@@ -1151,11 +1051,12 @@
 ////////////////////////////
 */
 /datum/sprite_accessory/marking
-	icon = 'icons/mob/human_races/markings.dmi'
+	icon = 'icons/mob/human_races/species/default_markings.dmi'
 	do_colouration = 1 //Almost all of them have it, COLOR_ADD
 
-	//Empty list is unrestricted. Should only restrict the ones that make NO SENSE on other species,
-	//like Tajara inner-ear coloring overlay stuff.
+	var/layer_blend = ICON_OVERLAY
+
+	//Empty list is unrestricted. Should only restrict the ones that make NO SENSE on other species.
 	species_allowed = list()
 
 	var/body_parts = list() //A list of bodyparts this covers, in organ_tag defines
@@ -1196,48 +1097,6 @@
 	body_parts = list(BP_L_FOOT,BP_R_FOOT,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM,BP_L_HAND,BP_R_HAND,BP_CHEST,BP_GROIN)
 	species_allowed = list(SPECIES_HUMAN)
 
-/datum/sprite_accessory/marking/taj_paw_socks
-	name = "Socks Coloration (Taj)"
-	icon_state = "taj_pawsocks"
-	body_parts = list(BP_L_FOOT,BP_R_FOOT,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM,BP_L_HAND,BP_R_HAND)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/paw_socks
-	name = "Socks Coloration (Generic)"
-	icon_state = "pawsocks"
-	body_parts = list(BP_L_FOOT,BP_R_FOOT,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM,BP_L_HAND,BP_R_HAND)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/belly_hands_feet
-	name = "Hands/Feet/Belly Color (Minor)"
-	icon_state = "bellyhandsfeetsmall"
-	body_parts = list(BP_L_FOOT,BP_R_FOOT,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM,BP_L_HAND,BP_R_HAND,BP_GROIN,BP_CHEST)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/hands_feet_belly_full
-	name = "Hands/Feet/Belly Color (Major)"
-	icon_state = "bellyhandsfeet"
-	body_parts = list(BP_L_FOOT,BP_R_FOOT,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM,BP_L_HAND,BP_R_HAND,BP_GROIN,BP_CHEST)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/hands_feet_belly_full_female
-	name = "Hands,Feet,Belly Color (Major, Female)"
-	icon_state = "bellyhandsfeet_female"
-	body_parts = list(BP_L_FOOT,BP_R_FOOT,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM,BP_L_HAND,BP_R_HAND,BP_GROIN,BP_CHEST)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/patches
-	name = "Color Patches"
-	icon_state = "patches"
-	body_parts = list(BP_L_FOOT,BP_R_FOOT,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM,BP_L_HAND,BP_R_HAND,BP_CHEST,BP_GROIN)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/patchesface
-	name = "Color Patches (Face)"
-	icon_state = "patchesface"
-	body_parts = list(BP_HEAD)
-	species_allowed = list(SPECIES_TAJARA)
-
 /datum/sprite_accessory/marking/bands
 	name = "Color Bands"
 	icon_state = "bands"
@@ -1248,80 +1107,7 @@
 	icon_state = "bandsface"
 	body_parts = list(BP_HEAD)
 
-/datum/sprite_accessory/marking/tiger_stripes
-	name = "Tiger Stripes"
-	icon_state = "tiger"
-	body_parts = list(BP_L_FOOT,BP_R_FOOT,BP_L_LEG,BP_R_LEG,BP_L_ARM,BP_R_ARM,BP_CHEST,BP_GROIN)
-	species_allowed = list(SPECIES_TAJARA) //There's a tattoo for non-cats
-
-/datum/sprite_accessory/marking/tigerhead
-	name = "Tiger Stripes (Head, Minor)"
-	icon_state = "tigerhead"
-	body_parts = list(BP_HEAD)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/tigerface
-	name = "Tiger Stripes (Head, Major)"
-	icon_state = "tigerface"
-	body_parts = list(BP_HEAD)
-	species_allowed = list(SPECIES_TAJARA) //There's a tattoo for non-cats
-
 /datum/sprite_accessory/marking/backstripe
 	name = "Back Stripe"
 	icon_state = "backstripe"
 	body_parts = list(BP_CHEST)
-
-//Taj specific stuff
-/datum/sprite_accessory/marking/taj_belly
-	name = "Belly Fur (Taj)"
-	icon_state = "taj_belly"
-	body_parts = list(BP_CHEST)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/taj_bellyfull
-	name = "Belly Fur Wide (Taj)"
-	icon_state = "taj_bellyfull"
-	body_parts = list(BP_CHEST)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/taj_earsout
-	name = "Outer Ear (Taj)"
-	icon_state = "taj_earsout"
-	body_parts = list(BP_HEAD)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/taj_earsin
-	name = "Inner Ear (Taj)"
-	icon_state = "taj_earsin"
-	body_parts = list(BP_HEAD)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/taj_nose
-	name = "Nose Color (Taj)"
-	icon_state = "taj_nose"
-	body_parts = list(BP_HEAD)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/taj_crest
-	name = "Chest Fur Crest (Taj)"
-	icon_state = "taj_crest"
-	body_parts = list(BP_CHEST)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/taj_muzzle
-	name = "Muzzle Color (Taj)"
-	icon_state = "taj_muzzle"
-	body_parts = list(BP_HEAD)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/taj_face
-	name = "Cheeks Color (Taj)"
-	icon_state = "taj_face"
-	body_parts = list(BP_HEAD)
-	species_allowed = list(SPECIES_TAJARA)
-
-/datum/sprite_accessory/marking/taj_all
-	name = "All Taj Head (Taj)"
-	icon_state = "taj_all"
-	body_parts = list(BP_HEAD)
-	species_allowed = list(SPECIES_TAJARA)

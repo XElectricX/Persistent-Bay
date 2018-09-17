@@ -1,7 +1,7 @@
 //NASA Voidsuit
 /obj/item/clothing/head/helmet/space/void
-	name = "void helmet"
-	desc = "A high-tech dark red space suit helmet. Used for AI satellite maintenance."
+	name = "voidsuit helmet"
+	desc = "A primitive dark red space suit helmet. Its simple, yet effective design is an all time favorite for novice explorers throughout the generations."
 	icon_state = "void"
 
 	heat_protection = HEAD
@@ -13,17 +13,11 @@
 	species_restricted = list(SPECIES_HUMAN, SPECIES_IPC)
 	sprite_sheets = list(
 		SPECIES_UNATHI = 'icons/mob/species/unathi/helmet.dmi',
-		SPECIES_TAJARA = 'icons/mob/species/tajaran/helmet.dmi',
-		SPECIES_SKRELL = 'icons/mob/species/skrell/helmet.dmi',
-		SPECIES_BOGANI = 'icons/mob/species/bogani/helmet.dmi',
-		SPECIES_EGYNO  = 'icons/mob/species/bogani/helmet.dmi',
+		SPECIES_SKRELL = 'icons/mob/species/skrell/helmet.dmi'
 		)
 	sprite_sheets_obj = list(
 		SPECIES_UNATHI = 'icons/obj/clothing/species/unathi/hats.dmi',
-		SPECIES_TAJARA = 'icons/obj/clothing/species/tajaran/hats.dmi',
-		SPECIES_SKRELL = 'icons/obj/clothing/species/skrell/hats.dmi',
-		SPECIES_BOGANI = 'icons/obj/clothing/species/bogani/hats.dmi',
-		SPECIES_EGYNO  = 'icons/obj/clothing/species/bogani/hats.dmi',
+		SPECIES_SKRELL = 'icons/obj/clothing/species/skrell/hats.dmi'
 		)
 
 	light_overlay = "helmet_light"
@@ -33,8 +27,8 @@
 	icon_state = "void"
 	//item_state = "syndie_hardsuit"
 	w_class = ITEM_SIZE_HUGE//bulky item
-	desc = "A high-tech dark red space suit. Used for AI satellite maintenance."
-	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 20)
+	desc = "A primitive dark red space suit. Its simple, yet effective design is an all time favorite for novice explorers throughout the generations."
+	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 20, bio = 100, rad = 20)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit)
 	heat_protection = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	max_heat_protection_temperature = SPACE_SUIT_MAX_HEAT_PROTECTION_TEMPERATURE
@@ -43,18 +37,12 @@
 	species_restricted = list(SPECIES_HUMAN, SPECIES_SKRELL, SPECIES_IPC)
 	sprite_sheets = list(
 		SPECIES_UNATHI = 'icons/mob/species/unathi/suit.dmi',
-		SPECIES_TAJARA = 'icons/mob/species/tajaran/suit.dmi',
-		SPECIES_SKRELL = 'icons/mob/species/skrell/suit.dmi',
-		SPECIES_BOGANI = 'icons/mob/species/bogani/suits.dmi',
-		SPECIES_EGYNO  = 'icons/mob/species/bogani/suits.dmi',
+		SPECIES_SKRELL = 'icons/mob/species/skrell/suit.dmi'
 		)
 
 	sprite_sheets_obj = list(
 		SPECIES_UNATHI = 'icons/obj/clothing/species/unathi/suits.dmi',
-		SPECIES_TAJARA = 'icons/obj/clothing/species/tajaran/suits.dmi',
-		SPECIES_SKRELL = 'icons/obj/clothing/species/skrell/suits.dmi',
-		SPECIES_BOGANI = 'icons/obj/clothing/species/bogani/suits.dmi',
-		SPECIES_EGYNO  = 'icons/obj/clothing/species/bogani/suits.dmi',
+		SPECIES_SKRELL = 'icons/obj/clothing/species/skrell/suits.dmi'
 		)
 
 	//Breach thresholds, should ideally be inherited by most (if not all) voidsuits.
@@ -283,3 +271,7 @@ else if(##equipment_var) {\
 
 /obj/item/clothing/suit/space/void/attack_self() //sole purpose of existence is to toggle the helmet
 	toggle_helmet()
+
+/obj/item/clothing/suit/space/void/prepared
+	helmet = /obj/item/clothing/head/helmet/space/void
+	boots = /obj/item/clothing/shoes/magboots

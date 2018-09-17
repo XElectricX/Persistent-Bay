@@ -1,5 +1,95 @@
 //This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:31
+#define ACCESS_BUSINESS_ELETRONICS "Electronics Control"
+#define ACCESS_BUSINESS_DEFAULT_ALL list(ACCESS_BUSINESS_ELETRONICS,"Sales", "Budget View", "Employee Control", "Upper Management", "Door Access 1", "Door Access 2", "Door Access 3")
 
+
+/obj/item/weapon/airlock_electronics/business
+	name = "business airlock electronics"
+	icon = 'icons/obj/doors/door_assembly.dmi'
+	icon_state = "door_electronics"
+	w_class = ITEM_SIZE_SMALL //It should be tiny! -Agouri
+	desc = "airlock electronics that connect to business networks"
+	matter = list(DEFAULT_WALL_MATERIAL = 50,"glass" = 50)
+
+	req_access = list()
+
+/obj/item/weapon/airlock_electronics/business/ui_data(mob/user)
+	var/list/data = list()
+	var/list/regions = list()
+	var/datum/small_business/viewing = get_business(business_name)
+	if(!viewing) locked = 1
+	if(!locked)
+		data["connected_faction"] = viewing.name
+		var/list/all_access = ACCESS_BUSINESS_DEFAULT_ALL
+		var/list/region = list()
+		var/list/accesses = list()
+		for(var/j in all_access)
+			var/list/access = list()
+			access["name"] = j
+			access["id"] = j
+			access["req"] = (j in src.business_access)
+			accesses[++accesses.len] = access
+		region["name"] = "Business Accesses"
+		region["accesses"] = accesses
+		regions[++regions.len] = region
+	data["regions"] = regions
+	data["oneAccess"] = one_access
+	data["locked"] = locked
+	data["lockable"] = lockable
+
+	return data
+
+
+/obj/item/weapon/airlock_electronics/business/ui_act(action, params)
+	switch(action)
+		if("clear")
+			business_access = list()
+			one_access = 0
+			return TRUE
+		if("one_access")
+			one_access = !one_access
+			return TRUE
+		if("set")
+			var/access = params["access"]
+			if (!(access in business_access))
+				business_access += access
+			else
+				business_access -= access
+			return TRUE
+		if("unlock")
+			var/select_name = input(usr,"Enter the full name of the business.\n (This [name] will be bound to that business until an employee clears the access list and locks it.)","Unlock", "") as null|text
+			var/datum/small_business/viewing = get_business(select_name)
+
+			if (business_name && (select_name != business_name) )
+				to_chat(usr, "This [name] has been locked by the business [business_name] .")
+				return FALSE
+			if(!viewing)
+				to_chat(usr, "Business not found.")
+				return FALSE
+			var/datum/employee_data/employee = viewing.get_employee_data(usr.get_id_name())
+			if ( !(usr.get_id_name() == viewing.ceo_name) && !employee)
+				to_chat(usr, "You're not part of that business.")
+				return FALSE
+			else if ( usr.get_id_name() == viewing.ceo_name || ( ACCESS_BUSINESS_ELETRONICS in employee.accesses) )
+				locked = 0
+				business_name = select_name
+				return TRUE
+			else
+				to_chat(usr, "Only the CEO or permitted employees are able to unlock the [name].")
+				return FALSE
+
+		if("lock")
+			if(!lockable)
+				return TRUE
+			if (!business_access.len)
+				business_name = ""
+				connected_faction = null
+			locked = 1
+			. = TRUE
+	if(..())
+		return TRUE
+	
+	
 /obj/item/weapon/airlock_electronics
 	name = "airlock electronics"
 	icon = 'icons/obj/doors/door_assembly.dmi'
@@ -17,7 +107,8 @@
 	var/locked = 1
 	var/lockable = 1
 	var/datum/world_faction/connected_faction
-
+	var/business_name = ""
+	var/list/business_access = list()
 
 /obj/item/weapon/airlock_electronics/attack_self(mob/user as mob)
 	if (!ishuman(user) && !istype(user,/mob/living/silicon/robot))
@@ -107,8 +198,8 @@
 		if("lock")
 			if(!lockable)
 				return TRUE
-			conf_access.Cut()
-			connected_faction = null
+			if (!conf_access.len)
+				connected_faction = null
 			locked = 1
 			. = TRUE
 

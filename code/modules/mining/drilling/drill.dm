@@ -5,7 +5,7 @@
 	density = 1
 	plane = ABOVE_HUMAN_PLANE
 	layer = ABOVE_HUMAN_LAYER //So it draws over mobs in the tile north of it.
-
+	var/statu = 0
 /obj/machinery/mining/drill
 	name = "mining drill head"
 	desc = "An enormous drill."
@@ -17,22 +17,30 @@
 	var/actual_power_usage = 10 KILOWATTS // Actual power usage, with upgrades in mind.
 	var/active = 0
 	var/list/resource_field = list()
+	var/health = 100
+	var/stacks_needed = 0
 
 	var/ore_types = list(
-		"iron" = /obj/item/weapon/ore/iron,
-		"uranium" = /obj/item/weapon/ore/uranium,
-		"gold" = /obj/item/weapon/ore/gold,
-		"silver" = /obj/item/weapon/ore/silver,
-		"diamond" = /obj/item/weapon/ore/diamond,
-		"phoron" = /obj/item/weapon/ore/phoron,
-		"osmium" = /obj/item/weapon/ore/osmium,
-		"hydrogen" = /obj/item/weapon/ore/hydrogen,
-		"silicates" = /obj/item/weapon/ore/glass,
-		"carbonaceous rock" = /obj/item/weapon/ore/coal,
-		"bluespace crystal" = /obj/item/bluespace_crystal,
-		"rock salt" = /obj/item/weapon/ore/salt,
-		"ice" = /obj/item/weapon/ore/ice/,
-		"dry ice" = /obj/item/weapon/ore/dryice/
+		"pitchblende",
+		"platinum",
+		"hematite",
+		"graphene",
+		"diamond",
+		"gold",
+		"silver",
+		"phoron",
+		"quartz",
+		"pyrite",
+		"spodumene",
+		"cinnabar",
+		"phosphorite",
+		"rock salt",
+		"potash",
+		"bauxite",
+		"tungsten",
+		"sand",
+		"copper",
+		"bluespace crystal"
 		)
 
 	//Upgrades
@@ -57,6 +65,19 @@
 
 	RefreshParts()
 
+
+/obj/machinery/mining/drill/attack_generic(var/mob/user, var/damage)
+	health = max(0, health-damage)
+	if(!health)
+		statu = 2
+		active = 0
+		need_player_check = 1
+		stacks_needed = rand(5, 10)
+		update_icon()
+		if(istype(user, /mob/living/simple_animal/hostile))
+			var/mob/living/simple_animal/hostile/attacker = user
+			attacker.target_mob = null
+
 /obj/machinery/mining/drill/Process()
 
 	if(need_player_check)
@@ -80,8 +101,8 @@
 		return
 
 	//Drill through the flooring, if any.
-	if(istype(get_turf(src), /turf/simulated/floor/asteroid))
-		var/turf/simulated/floor/asteroid/T = get_turf(src)
+	if(istype(get_turf(src), /turf/simulated/asteroid))
+		var/turf/simulated/asteroid/T = get_turf(src)
 		if(!T.dug)
 			T.gets_dug()
 	else if(istype(get_turf(src), /turf/simulated/floor/exoplanet))
@@ -137,8 +158,41 @@
 					harvesting.resources[metal] = 0
 
 				for(var/i=1, i <= create_ore, i++)
-					var/oretype = ore_types[metal]
-					new oretype(src)
+					if(metal == "phoron")
+						var/datum/aggression_machine/zone = aggression_controller.sectors_by_zlevel["[z]"]
+						zone.asteroid_aggression += 5
+						zone.asteroid_targets |= src
+						zone.drill_targets |= src
+					else if(metal == "bluespace crystal")
+						var/datum/aggression_machine/zone = aggression_controller.sectors_by_zlevel["[z]"]
+						zone.asteroid_aggression += 25
+						zone.asteroid_targets |= src
+						zone.drill_targets |= src
+					else if(metal == "platinum")
+						var/datum/aggression_machine/zone = aggression_controller.sectors_by_zlevel["[z]"]
+						zone.asteroid_aggression += 0.25
+						zone.asteroid_targets |= src
+						zone.drill_targets |= src
+					else if(metal == "diamond")
+						var/datum/aggression_machine/zone = aggression_controller.sectors_by_zlevel["[z]"]
+						zone.asteroid_aggression += 0.25
+						zone.asteroid_targets |= src
+						zone.drill_targets |= src
+					else if(metal == "pitchblende")
+						var/datum/aggression_machine/zone = aggression_controller.sectors_by_zlevel["[z]"]
+						zone.asteroid_aggression += 0.25
+						zone.asteroid_targets |= src
+						zone.drill_targets |= src
+					else if(metal == "gold")
+						var/datum/aggression_machine/zone = aggression_controller.sectors_by_zlevel["[z]"]
+						zone.asteroid_aggression += 0.25
+						zone.asteroid_targets |= src
+						zone.drill_targets |= src
+
+					if(metal == "bluespace crystal")
+						new /obj/item/bluespace_crystal(get_turf(src))
+					else
+						new /obj/item/weapon/ore(src, metal)
 
 		if(!found_resource)
 			harvesting.has_resources = 0
@@ -153,6 +207,34 @@
 	return src.attack_hand(user)
 
 /obj/machinery/mining/drill/attackby(obj/item/O as obj, mob/user as mob)
+	if(statu == 2)
+		if(stacks_needed && istype(O, /obj/item/stack/material) && O.get_material_name() == "steel")
+			var/obj/item/stack/material/sheets = O
+			if(sheets.amount >= stacks_needed)
+				sheets.use(stacks_needed)
+				stacks_needed = 0
+			else
+				stacks_needed -= sheets.amount
+				sheets.use(sheets.amount)
+		if(isWelder(O))
+			if(stacks_needed)
+				to_chat(user, "The drill still requires [stacks_needed] steel sheets to start the patch.")
+				return
+			var/obj/item/weapon/weldingtool/WT = O
+			if (WT.get_fuel() < 3)
+				to_chat(user, "<span class='warning'>You need more welding fuel to complete this task.</span>")
+				return
+			user.visible_message("<span class='warning'>[user.name] patches [src].</span>", \
+								"You start patching the drill...", \
+								"You hear welding.")
+			playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
+			if(do_after(user, 50, src))
+				if(!src || !WT.remove_fuel(3, user)) return
+				health = 100
+				statu = 0
+				need_player_check = 0
+				update_icon()
+				return
 	if(!active)
 		if(default_deconstruction_screwdriver(user, O))
 			return
@@ -160,6 +242,25 @@
 			return
 		if(default_part_replacement(user, O))
 			return
+		if(isWelder(O))
+			if(stacks_needed)
+				to_chat(user, "The drill still requires [stacks_needed] steel sheets to start the patch.")
+				return
+			var/obj/item/weapon/weldingtool/WT = O
+			if (WT.get_fuel() < 3)
+				to_chat(user, "<span class='warning'>You need more welding fuel to complete this task.</span>")
+				return
+			user.visible_message("<span class='warning'>[user.name] repairs [src].</span>", \
+								"You start reparing the drill...", \
+								"You hear welding.")
+			playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
+			if(do_after(user, 50, src))
+				if(!src || !WT.remove_fuel(3, user) || active) return
+				health = 100
+				statu = 0
+				need_player_check = 0
+				update_icon()
+				return
 	if(!panel_open || active) return ..()
 
 	if(istype(O, /obj/item/weapon/cell))
@@ -176,12 +277,18 @@
 
 /obj/machinery/mining/drill/attack_hand(mob/user as mob)
 	check_supports()
-
 	if (panel_open && cell && user.Adjacent(src))
 		to_chat(user, "You take out \the [cell].")
 		cell.loc = get_turf(user)
 		component_parts -= cell
 		cell = null
+		return
+	if(statu == 2)
+		to_chat(user, "The drill is damaged and needs repair.")
+		if(stacks_needed)
+			to_chat(user, "Apply [stacks_needed] steel sheets and then weld the drill.")
+		else
+			to_chat(user, "Weld the drill.")
 		return
 	else if(need_player_check)
 		to_chat(user, "You hit the manual override and reset the drill's error checking.")

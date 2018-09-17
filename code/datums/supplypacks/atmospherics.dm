@@ -1,6 +1,5 @@
 /decl/hierarchy/supply_pack/atmospherics
 	name = "Atmospherics"
-	containertype = /obj/structure/closet/crate/internals
 
 /decl/hierarchy/supply_pack/atmospherics/internals
 	name = "Internals crate"
@@ -50,7 +49,7 @@
 	cost = 60
 	containername = "\improper Phoron gas canister crate"
 	containertype = /obj/structure/closet/crate/secure/large
-//	access = access_ce
+	access = core_access_engineering_programs
 
 /decl/hierarchy/supply_pack/atmospherics/canister_sleeping_agent
 	name = "N2O gas canister"
@@ -58,7 +57,7 @@
 	cost = 40
 	containername = "\improper N2O gas canister crate"
 	containertype = /obj/structure/closet/crate/secure/large
-	access = 3
+	access = core_access_engineering_programs
 
 /decl/hierarchy/supply_pack/atmospherics/canister_carbon_dioxide
 	name = "Carbon dioxide gas canister"
@@ -66,17 +65,23 @@
 	cost = 40
 	containername = "\improper CO2 canister crate"
 	containertype = /obj/structure/closet/crate/secure/large
-	access = 3
+	access = core_access_engineering_programs
 
 /decl/hierarchy/supply_pack/atmospherics/voidsuit
-	name = "Atmospherics voidsuit"
-	contains = list(/obj/item/clothing/suit/space/void/atmos/alt,
-					/obj/item/clothing/head/helmet/space/void/atmos/alt,
-					/obj/item/clothing/shoes/magboots)
+	name = "Atmospherics Voidsuit"
+	contains = list(/obj/item/clothing/suit/space/void/atmos/prepared)
 	cost = 100
-	containername = "\improper Atmospherics voidsuit crate"
+	containername = "\improper Atmospherics Voidsuit crate"
 	containertype = /obj/structure/closet/crate/secure/large
-	access = 3
+	access = core_access_engineering_programs
+
+/decl/hierarchy/supply_pack/atmospherics/voidsuit_heavyduty
+	name = "Heavy Duty Atmospherics voidsuit"
+	contains = list(/obj/item/clothing/suit/space/void/atmos/alt/prepared)
+	cost = 150
+	containername = "\improper Heavy Duty Atmospherics Voidsuit crate"
+	containertype = /obj/structure/closet/crate/secure/large
+	access = core_access_engineering_programs
 
 /decl/hierarchy/supply_pack/atmospherics/canister_hydrogen
 	name = "Hydrogen canister"
@@ -84,7 +89,7 @@
 	cost = 10
 	containername = "\improper Hydrogen canister crate"
 	containertype = /obj/structure/closet/crate/secure/large
-	access = 3
+	access = core_access_engineering_programs
 
 /decl/hierarchy/supply_pack/atmospherics/airpump
 	name = "Portable Air Pumps (x4)"
@@ -93,11 +98,11 @@
 	containername = "Portable Air Pump Shipment"
 	containertype = /obj/structure/largecrate
 
-/decl/hierarchy/supply_pack/atmospherics/sublimator
-	name = "Sublimator"
-	contains = list(/obj/machinery/portable_atmospherics/sublimator)
+/decl/hierarchy/supply_pack/atmospherics/gas_generator
+	name = "Gas Generator"
+	contains = list(/obj/machinery/portable_atmospherics/gas_generator)
 	cost = 25
-	containername = "\improper Sublimator Crate"
+	containername = "\improper Gas Generator Crate"
 	containertype = /obj/structure/largecrate
 
 /decl/hierarchy/supply_pack/atmospherics/bulk_canister_air

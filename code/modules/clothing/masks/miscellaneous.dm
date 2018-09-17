@@ -231,11 +231,10 @@
 	if(istype(S))
 		visible_name = S.get_random_name(pick(MALE,FEMALE))
 
-/obj/item/clothing/mask/rubber/species/tajaran
-	name = "tajara mask"
-	desc = "A rubber tajara mask."
+/obj/item/clothing/mask/rubber/species/cat
+	name = "cat mask"
+	desc = "A rubber cat mask."
 	icon_state = "catmet"
-	species = SPECIES_TAJARA
 
 /obj/item/clothing/mask/rubber/species/unathi
 	name = "unathi mask"

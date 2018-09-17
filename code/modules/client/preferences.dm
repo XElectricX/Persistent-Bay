@@ -35,6 +35,9 @@ datum/preferences
 	// Persistent Edit, Adding the character list..
 	var/list/character_list = list()
 	var/list/icon_list = list()
+
+	var/bonus_slots = 0
+	var/bonus_notes = ""
 /datum/preferences/New(client/C)
 	player_setup = new(src)
 	gender = pick(MALE, FEMALE)
@@ -365,6 +368,53 @@ datum/preferences
 		character.nutrition = rand(140,360)
 
 	return
+
+/proc/UpdateCharacter(var/ind, var/ckey)
+	var/savefile/F = new(load_path(ckey, "[ind].sav"))
+	var/mob/M
+	F >> M
+	fdel(F)
+	F["name"] << M.real_name
+	F["mob"] << M
+	qdel(M)
+	
+/proc/Character(var/ind, var/ckey)
+	if(!fexists(load_path(ckey, "[ind].sav")))
+		return
+
+	var/savefile/F = new(load_path(ckey, "[ind].sav"))
+	var/mob/M
+	if(!F.dir.Find("mob"))
+		F >> M
+		sleep(10)
+		return M
+	F["mob"] >> M
+	return M
+
+/proc/CharacterName(var/ind, var/ckey)
+	if(!fexists(load_path(ckey, "[ind].sav")))
+		return
+
+	var/savefile/F = new(load_path(ckey, "[ind].sav"))
+	var/name
+	if(!F.dir.Find("name"))
+		var/mob/M
+		F >> M
+		sleep(10)
+		return M.real_name
+	F["name"] >> name
+	return name
+
+/proc/CharacterIcon(var/ind, var/ckey)
+	if(!fexists(load_path(ckey, "[ind].sav")))
+		return
+
+	var/mob/M = Character(ind, ckey)
+	M.regenerate_icons()
+	var/icon/I = get_preview_icon(M)
+	qdel(M)
+	return I
+
 /datum/preferences/proc/delete_character(var/slot)
 	var/path_to = load_path(client.ckey, "")
 	if(!slot) return
@@ -372,24 +422,33 @@ datum/preferences
 	if(character_list && (character_list.len >= slot))
 		character_list[slot] = "nothing"
 /datum/preferences/proc/load_characters()
-	var/path_to = load_path(client.ckey, "")
+/*	var/path_to = load_path(client.ckey, "")
 	character_list = list()
 	var/slots = config.character_slots
 	if(check_rights(R_ADMIN, 0, client))
 		slots += 2
+	slots += client.prefs.bonus_slots
+	var/list/loaded = list()
 	for(var/i=1, i<= slots, i++)
 		if(fexists("[path_to][i].sav"))
 			var/savefile/S =  new("[path_to][i].sav")
 			var/mob/M
 			S >> M
+			loaded |= M
 			if(M)
 				M.after_load()
 				for(var/datum/D in M.contents)
 					D.after_load()
+				for(var/mob/loaded_mob in SSmobs.mob_list)
+					if(loaded_mob in loaded) continue
+					if(!loaded_mob.perma_dead && loaded_mob.type != /mob/new_player && (loaded_mob.real_name == M.real_name) && (get_turf(loaded_mob)))
+						loaded_mob.save_slot = i
 				character_list += M
+				M.save_slot = i
 		else
 			character_list += "empty"
 	return 1
+	*/
 /datum/preferences/proc/open_load_dialog(mob/user)
 	var/dat  = list()
 	dat += "<body>"
@@ -397,6 +456,7 @@ datum/preferences
 	var/slots = config.character_slots
 	if(check_rights(R_ADMIN, 0, client))
 		slots += 2
+	slots += client.prefs.bonus_slots
 	var/savefile/S = new /savefile(path)
 	if(S)
 		dat += "<b>Select a character slot to load</b><hr>"
@@ -419,6 +479,7 @@ datum/preferences
 	var/slots = config.character_slots
 	if(check_rights(R_ADMIN, 0, client))
 		slots += 2
+	slots += client.prefs.bonus_slots
 	if(!character_list || (character_list.len < slots))
 		load_characters()
 	var/dat  = list()
@@ -443,3 +504,12 @@ datum/preferences
 /datum/preferences/proc/close_load_dialog(mob/user)
 	user << browse(null, "window=saves")
 	panel.close()
+
+
+/datum/preferences/proc/Slots()
+	var/slots = 2 + bonus_slots
+
+	if(check_rights(R_ADMIN, 0, client))
+		slots += 2
+
+	return slots

@@ -116,7 +116,9 @@
 
 	if(internal_organs)
 		for(var/obj/item/organ/O in internal_organs)
-			qdel(O)
+			O.removed()
+			if(owner && istype(owner.loc,/turf))
+				O.throw_at(get_edge_target_turf(owner,pick(GLOB.alldirs)),rand(1,3),30)
 
 	applied_pressure = null
 	if(splinted && splinted.loc == src)
@@ -133,6 +135,10 @@
 	if(autopsy_data)    autopsy_data.Cut()
 
 	return ..()
+
+/obj/item/organ/external/set_dna(var/datum/dna/new_dna)
+	..()
+	s_col_blend = species.limb_blend
 
 /obj/item/organ/external/emp_act(severity)
 	var/burn_damage = 0
@@ -934,6 +940,24 @@ Note that amputating the affected organ does in fact remove the infection from t
 		if(W.clamped)
 			return 1
 
+obj/item/organ/external/proc/remove_clamps()
+	var/rval = 0
+	for(var/datum/wound/W in wounds)
+		rval |= W.clamped
+		W.clamped = 0
+	return rval
+
+// open incisions and expose implants
+// this is the retract step of surgery
+/obj/item/organ/external/proc/open_incision()
+	var/datum/wound/W = get_incision()
+	if(!W)	return
+	W.open_wound(min(W.damage * 2, W.damage_list[1] - W.damage))
+
+	if(!encased)
+		for(var/obj/item/weapon/implant/I in implants)
+			I.exposed()
+
 /obj/item/organ/external/proc/fracture()
 	if(!config.bones_can_break)
 		return
@@ -1186,7 +1210,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 			incision = W
 	return incision
 
-/obj/item/organ/external/proc/open()
+/obj/item/organ/external/proc/how_open()
 	var/datum/wound/cut/incision = get_incision()
 	. = 0
 	if(!incision)
@@ -1264,12 +1288,12 @@ Note that amputating the affected organ does in fact remove the infection from t
 		else
 			wound_descriptors[this_wound_desc] = W.amount
 
-	if(open() >= SURGERY_RETRACTED)
+	if(how_open() >= SURGERY_RETRACTED)
 		var/bone = encased ? encased : "bone"
 		if(status & ORGAN_BROKEN)
 			bone = "broken [bone]"
 		wound_descriptors["a [bone] exposed"] = 1
-		if(!encased || open() >= SURGERY_ENCASED)
+		if(!encased || how_open() >= SURGERY_ENCASED)
 			var/list/bits = list()
 			for(var/obj/item/organ/internal/organ in internal_organs)
 				bits += organ.get_visible_state()

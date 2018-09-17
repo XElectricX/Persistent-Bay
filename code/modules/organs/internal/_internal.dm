@@ -30,6 +30,7 @@
 	if(istype(H))
 		var/obj/item/organ/external/E = H.get_organ(parent_organ)
 		E.cavity_max_w_class = max(E.cavity_max_w_class, w_class)
+	..()
 /obj/item/organ/internal/Destroy()
 	if(owner)
 		owner.internal_organs.Remove(src)
@@ -40,6 +41,11 @@
 		var/obj/item/organ/external/E = owner.organs_by_name[parent_organ]
 		if(istype(E)) E.internal_organs -= src
 	return ..()
+
+/obj/item/organ/internal/set_dna(var/datum/dna/new_dna)
+	..()
+	if(species && species.organs_icon)
+		icon = species.organs_icon
 
 //disconnected the organ from it's owner but does not remove it, instead it becomes an implant that can be removed with implant surgery
 //TODO move this to organ/internal once the FPB port comes through

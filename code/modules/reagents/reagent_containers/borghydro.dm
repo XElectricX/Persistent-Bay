@@ -17,6 +17,10 @@
 	var/list/reagent_volumes = list()
 	var/list/reagent_names = list()
 
+/obj/item/weapon/reagent_containers/borghypo/standard
+	desc = "An advanced chemical synthesizer and injection system, this one only appears to dispense inaprovaline."
+	reagent_ids = list(/datum/reagent/inaprovaline)
+
 /obj/item/weapon/reagent_containers/borghypo/surgeon
 	reagent_ids = list(/datum/reagent/bicaridine, /datum/reagent/dexalin, /datum/reagent/tramadol)
 
@@ -97,9 +101,7 @@
 
 	return
 
-/obj/item/weapon/reagent_containers/borghypo/Topic(var/href, var/list/href_list)
-	if((. = ..()))
-		return
+/obj/item/weapon/reagent_containers/borghypo/OnTopic(var/href, var/list/href_list)
 	if(href_list["reagent_index"])
 		var/index = text2num(href_list["reagent_index"])
 		if(index > 0 && index <= reagent_ids.len)
@@ -107,7 +109,7 @@
 			mode = index
 			var/datum/reagent/R = reagent_ids[mode]
 			to_chat(usr, "<span class='notice'>Synthesizer is now producing '[initial(R.name)]'.</span>")
-		return 1
+		return TOPIC_REFRESH
 
 /obj/item/weapon/reagent_containers/borghypo/examine(mob/user)
 	if(!..(user, 2))

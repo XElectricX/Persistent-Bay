@@ -10,7 +10,7 @@
 		slot_l_hand_str = "eng_helm",
 		slot_r_hand_str = "eng_helm",
 		)
-	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 80)
+	armor = list(melee = 30, bullet = 5, laser = 10,energy = 5, bomb = 35, bio = 100, rad = 80)
 
 /obj/item/clothing/suit/space/void/engineering
 	name = "engineering voidsuit"
@@ -20,7 +20,7 @@
 		slot_l_hand_str = "eng_voidsuit",
 		slot_r_hand_str = "eng_voidsuit",
 	)
-	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 80)
+	armor = list(melee = 30, bullet = 5, laser = 10,energy = 5, bomb = 35, bio = 100, rad = 80)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/toolbox,/obj/item/weapon/storage/briefcase/inflatable,/obj/item/device/t_scanner,/obj/item/weapon/rcd)
 
 /obj/item/clothing/suit/space/void/engineering/New()
@@ -57,6 +57,7 @@
 
 /obj/item/clothing/suit/space/void/mining/prepared
 	helmet = /obj/item/clothing/head/helmet/space/void/mining
+	boots = /obj/item/clothing/shoes/magboots
 
 //Medical
 /obj/item/clothing/head/helmet/space/void/medical
@@ -68,18 +69,18 @@
 		slot_l_hand_str = "medical_helm",
 		slot_r_hand_str = "medical_helm",
 		)
-	armor = list(melee = 30, bullet = 5, laser = 20,energy = 5, bomb = 25, bio = 100, rad = 50)
+	armor = list(melee = 20, bullet = 5, laser = 10,energy = 5, bomb = 5, bio = 100, rad = 60)
 
 /obj/item/clothing/suit/space/void/medical
 	icon_state = "rig-medical"
 	name = "medical voidsuit"
-	desc = "A sterile voidsuit with minor radiation shielding and a suite of self-cleaning technology. Standard issue in Nanotrasen medical facilities."
+	desc = "A sterile voidsuit with minor radiation shielding and a suite of self-cleaning technology."
 	item_state_slots = list(
 		slot_l_hand_str = "medical_voidsuit",
 		slot_r_hand_str = "medical_voidsuit",
 	)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/firstaid,/obj/item/device/healthanalyzer,/obj/item/stack/medical)
-	armor = list(melee = 30, bullet = 5, laser = 20,energy = 5, bomb = 25, bio = 100, rad = 50)
+	armor = list(melee = 20, bullet = 5, laser = 10,energy = 5, bomb = 5, bio = 100, rad = 60)
 
 /obj/item/clothing/suit/space/void/medical/prepared
 	helmet = /obj/item/clothing/head/helmet/space/void/medical
@@ -95,7 +96,7 @@
 		slot_l_hand_str = "sec_helm",
 		slot_r_hand_str = "sec_helm",
 		)
-	armor = list(melee = 60, bullet = 10, laser = 30, energy = 5, bomb = 45, bio = 100, rad = 10)
+	armor = list(melee = 65, bullet = 15, laser = 30, energy = 5, bomb = 55, bio = 100, rad = 10)
 	siemens_coefficient = 0.7
 	light_overlay = "helmet_light_dual"
 
@@ -107,7 +108,7 @@
 		slot_l_hand_str = "sec_voidsuit",
 		slot_r_hand_str = "sec_voidsuit",
 	)
-	armor = list(melee = 60, bullet = 10, laser = 30, energy = 5, bomb = 45, bio = 100, rad = 10)
+	armor = list(melee = 65, bullet = 15, laser = 30, energy = 5, bomb = 55, bio = 100, rad = 10)
 	allowed = list(/obj/item/weapon/gun,/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/melee/baton)
 	siemens_coefficient = 0.7
 
@@ -125,7 +126,7 @@
 		slot_l_hand_str = "atmos_helm",
 		slot_r_hand_str = "atmos_helm",
 		)
-	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 50)
+	armor = list(melee = 30, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 50)
 	max_heat_protection_temperature = FIRE_HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
 	light_overlay = "helmet_light_dual"
 
@@ -137,7 +138,7 @@
 		slot_l_hand_str = "atmos_voidsuit",
 		slot_r_hand_str = "atmos_voidsuit",
 	)
-	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 50)
+	armor = list(melee = 30, bullet = 5, laser = 20,energy = 5, bomb = 35, bio = 100, rad = 50)
 	max_heat_protection_temperature = FIRESUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/toolbox,/obj/item/weapon/storage/briefcase/inflatable,/obj/item/device/t_scanner,/obj/item/weapon/rcd)
 
@@ -172,36 +173,37 @@
 
 //Mining
 /obj/item/clothing/head/helmet/space/void/mining/alt
-	name = "frontier mining voidsuit helmet"
-	desc = "An armored voidsuit helmet. Someone must have through they were pretty cool when they painted a mohawk on it."
+	name = "reinforced mining voidsuit helmet"
+	desc = "An armored voidsuit helmet. Someone must have thought they were pretty cool when they designed a mohawk on it."
 	icon_state = "rig0-miningalt"
 	item_state = "miningalt_helm"
-	armor = list(melee = 50, bullet = 15, laser = 20,energy = 5, bomb = 55, bio = 100, rad = 0)
+	armor = list(melee = 65, bullet = 10, laser = 20,energy = 5, bomb = 55, bio = 100, rad = 20)
 
 /obj/item/clothing/suit/space/void/mining/alt
 	icon_state = "rig-miningalt"
-	name = "frontier mining voidsuit"
-	desc = "A cheap prospecting voidsuit. What it lacks in comfort it makes up for in armor plating and street cred."
-	armor = list(melee = 50, bullet = 15, laser = 20,energy = 5, bomb = 55, bio = 100, rad = 0)
+	name = "reinforced mining voidsuit"
+	desc = "A heavily armored prospecting voidsuit. What it lacks in comfort it makes up for in armor plating and reliability."
+	armor = list(melee = 65, bullet = 10, laser = 20,energy = 5, bomb = 55, bio = 100, rad = 0)
 
 /obj/item/clothing/suit/space/void/mining/alt/prepared
 	helmet = /obj/item/clothing/head/helmet/space/void/mining/alt
+	boots = /obj/item/clothing/shoes/magboots
 
 //Medical
 /obj/item/clothing/head/helmet/space/void/medical/alt
 	name = "streamlined medical voidsuit helmet"
-	desc = "A trendy, lightly radiation-shielded voidsuit helmet trimmed in a fetching blue."
+	desc = "A lightweight, radiation-shielded voidsuit helmet trimmed in a fetching blue."
 	icon_state = "rig0-medicalalt"
 	item_state = "medicalalt_helm"
-	armor = list(melee = 30, bullet = 5, laser = 10,energy = 5, bomb = 5, bio = 100, rad = 60)
+	armor = list(melee = 30, bullet = 5, laser = 15,energy = 5, bomb = 5, bio = 100, rad = 70)
 	light_overlay = "helmet_light_dual_green"
 
 /obj/item/clothing/suit/space/void/medical/alt
 	icon_state = "rig-medicalalt"
 	name = "streamlined medical voidsuit"
-	desc = "A more recent model of Vey-Med voidsuit, featuring the latest in radiation shielding technology, without sacrificing comfort or style."
+	desc = "A very sleekly designed voidsuit, featuring the latest in radiation shielding technology, without sacrificing comfort or style."
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/firstaid,/obj/item/device/healthanalyzer,/obj/item/stack/medical)
-	armor = list(melee = 30, bullet = 5, laser = 10,energy = 5, bomb = 5, bio = 100, rad = 60)
+	armor = list(melee = 30, bullet = 5, laser = 15,energy = 5, bomb = 5, bio = 100, rad = 70)
 
 /obj/item/clothing/suit/space/void/medical/alt/New()
 	..()
@@ -217,13 +219,13 @@
 	desc = "A somewhat tacky voidsuit helmet, a fact mitigated by heavy armor plating."
 	icon_state = "rig0-secalt"
 	item_state = "secalt_helm"
-	armor = list(melee = 70, bullet = 20, laser = 30, energy = 5, bomb = 35, bio = 100, rad = 10)
+	armor = list(melee = 70, bullet = 20, laser = 30, energy = 5, bomb = 55, bio = 100, rad = 10)
 
 /obj/item/clothing/suit/space/void/security/alt
 	icon_state = "rig-secalt"
 	name = "riot security voidsuit"
 	desc = "A heavily armored voidsuit, designed to intimidate people who find black intimidating. Surprisingly slimming."
-	armor = list(melee = 70, bullet = 20, laser = 30, energy = 5, bomb = 35, bio = 100, rad = 10)
+	armor = list(melee = 70, bullet = 20, laser = 30, energy = 5, bomb = 55, bio = 100, rad = 10)
 	allowed = list(/obj/item/weapon/gun,/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/melee/baton)
 
 /obj/item/clothing/suit/space/void/security/alt/prepared
@@ -236,15 +238,15 @@
 	name = "heavy duty atmospherics voidsuit helmet"
 	icon_state = "rig0-atmosalt"
 	item_state = "atmosalt_helm"
-	armor = list(melee = 20, bullet = 5, laser = 20,energy = 15, bomb = 45, bio = 100, rad = 50)
+	armor = list(melee = 20, bullet = 5, laser = 20,energy = 15, bomb = 45, bio = 100, rad = 55)
 	max_heat_protection_temperature = FIRE_HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
 	light_overlay = "hardhat_light"
 
 /obj/item/clothing/suit/space/void/atmos/alt
-	desc = "An expensive Nanotrasen voidsuit, rated to withstand extreme heat and even minor radiation without exceeding room temperature within."
+	desc = "An expensive voidsuit, rated to withstand extreme heat and even minor radiation without exceeding room temperature within."
 	icon_state = "rig-atmosalt"
 	name = "heavy duty atmos voidsuit"
-	armor = list(melee = 20, bullet = 5, laser = 20,energy = 15, bomb = 45, bio = 100, rad = 50)
+	armor = list(melee = 20, bullet = 5, laser = 20,energy = 15, bomb = 45, bio = 100, rad = 55)
 	max_heat_protection_temperature = FIRESUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 
 /obj/item/clothing/suit/space/void/atmos/alt/prepared
@@ -253,18 +255,21 @@
 
 //Exploration
 /obj/item/clothing/head/helmet/space/void/exploration
-	name = "exploration voidsuit helmet"
-	desc = "A radiation-resistant helmet made especially for exploring unknown planetary environments."
+	name = "purple voidsuit helmet"
+	desc = "A lightweight helmet designed to accommodate only the most opulent space explorers."
 	icon_state = "helm_explorer"
 	item_state = "helm_explorer"
-	armor = list(melee = 20, bullet = 10, laser = 15,energy = 45, bomb = 30, bio = 100, rad = 90)
+	armor = list(melee = 50, bullet = 10, laser = 25,energy = 5, bomb = 55, bio = 100, rad = 50)
+	max_heat_protection_temperature = FIRE_HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
 	light_overlay = "explorer_light"
 
 /obj/item/clothing/suit/space/void/exploration
-	name = "exploration voidsuit"
-	desc = "A lightweight, radiation-resistant voidsuit, featuring the Expeditionary Corps emblem on its chest plate. Designed for exploring unknown planetary environments."
+	name = "purple voidsuit"
+	desc = "A lightweight, general use voidsuit padded with soft cushioning to provide maximum comfort in the depths of space."
 	icon_state = "void_explorer"
-	armor = list(melee = 20, bullet = 10, laser = 15,energy = 45, bomb = 30, bio = 100, rad = 90)
+	item_state = "void_explorer"
+	armor = list(melee = 50, bullet = 10, laser = 25,energy = 5, bomb = 55, bio = 100, rad = 50)
+	max_heat_protection_temperature = FIRESUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/stack/flag,/obj/item/device/healthanalyzer,/obj/item/device/gps,/obj/item/device/beacon_locator,/obj/item/device/radio/beacon,/obj/item/weapon/material/hatchet/machete,/obj/item/weapon/shovel)
 
 /obj/item/clothing/suit/space/void/exploration/prepared
@@ -273,25 +278,25 @@
 
 //Misc
 /obj/item/clothing/head/helmet/space/void/engineering/salvage
-	name = "salvage voidsuit helmet"
-	desc = "A heavily modified salvage voidsuit helmet. It has been fitted with radiation-resistant plating."
+	name = "salvaged voidsuit helmet"
+	desc = "A hand-me-down salvage voidsuit helmet. It has obviously had a lot of repair work done to it, and is fitted with radiation shielding."
 	icon_state = "rig0-salvage"
 	item_state = "salvage_helm"
 	item_state_slots = list(
 		slot_l_hand_str = "eng_helm",
 		slot_r_hand_str = "eng_helm",
 		)
-	armor = list(melee = 50, bullet = 10, laser = 30,energy = 15, bomb = 35, bio = 100, rad = 80)
+	armor = list(melee = 20, bullet = 5, laser = 10,energy = 5, bomb = 20, bio = 100, rad = 50)
 
 /obj/item/clothing/suit/space/void/engineering/salvage
-	name = "salvage voidsuit"
-	desc = "A hand-me-down salvage voidsuit. It has obviously had a lot of repair work done to its radiation shielding."
+	name = "salvaged voidsuit"
+	desc = "A hand-me-down salvage voidsuit. It has obviously had a lot of repair work done to it, and is fitted with radiation shielding."
 	icon_state = "rig-salvage"
 	item_state_slots = list(
 		slot_l_hand_str = "eng_voidsuit",
 		slot_r_hand_str = "eng_voidsuit",
 	)
-	armor = list(melee = 50, bullet = 10, laser = 30,energy = 15, bomb = 35, bio = 100, rad = 80)
+	armor = list(melee = 20, bullet = 5, laser = 10,energy = 5, bomb = 20, bio = 100, rad = 50)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/toolbox,/obj/item/weapon/storage/briefcase/inflatable,/obj/item/device/t_scanner,/obj/item/weapon/rcd)
 
 /obj/item/clothing/suit/space/void/engineering/salvage/prepared
@@ -300,21 +305,19 @@
 
 //Pilot
 /obj/item/clothing/head/helmet/space/void/pilot
-	desc = "An atmos resistant helmet for space and planet exploration."
-	name = "pilot voidsuit helmet"
+	desc = "A general use voidsuit helmet for space exploration."
+	name = "red voidsuit helmet"
 	icon_state = "rig0_pilot"
 	item_state = "pilot_helm"
-	armor = list(melee = 40, bullet = 5, laser = 15,energy = 5, bomb = 5, bio = 100, rad = 50)
-	max_heat_protection_temperature = FIRE_HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
+	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 20, bio = 100, rad = 50)
 	light_overlay = "helmet_light_dual"
 
 /obj/item/clothing/suit/space/void/pilot
-	desc = "An atmos resistant voidsuit for space and planet exploration."
+	desc = "A general use voidsuit for space exploration."
 	icon_state = "rig-pilot"
 	item_state = "rig-pilot"
-	name = "pilot voidsuit"
-	armor = list(melee = 40, bullet = 5, laser = 15,energy = 5, bomb = 5, bio = 100, rad = 50)
-	max_heat_protection_temperature = FIRESUIT_MAX_HEAT_PROTECTION_TEMPERATURE
+	name = "red voidsuit"
+	armor = list(melee = 40, bullet = 5, laser = 20,energy = 5, bomb = 20, bio = 100, rad = 50)
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/toolbox,/obj/item/weapon/storage/briefcase/inflatable,/obj/item/device/t_scanner,/obj/item/weapon/rcd)
 
 /obj/item/clothing/suit/space/void/pilot/prepared

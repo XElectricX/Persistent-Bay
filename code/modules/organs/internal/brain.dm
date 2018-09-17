@@ -86,6 +86,7 @@
 		to_chat(user, "This one seems particularly lifeless. Perhaps it will regain some of its luster later..")
 
 /obj/item/organ/internal/brain/removed(var/mob/living/user)
+	/**
 	if(!istype(owner))
 		return ..()
 
@@ -100,7 +101,7 @@
 	transfer_identity(owner)
 
 	..()
-
+	**/
 /obj/item/organ/internal/brain/replaced(var/mob/living/target)
 
 	if(!..()) return 0
@@ -164,7 +165,7 @@
 
 				if(BLOOD_VOLUME_SAFE to INFINITY)
 					if(can_heal)
-						damage--
+						damage = max(damage-1, 0)
 				if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
 					if(prob(1))
 						to_chat(owner, "<span class='warning'>You feel [pick("dizzy","woozy","faint")]...</span>")

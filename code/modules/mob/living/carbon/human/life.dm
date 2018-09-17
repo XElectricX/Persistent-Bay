@@ -29,6 +29,7 @@
 #define COLD_GAS_DAMAGE_LEVEL_3 3 //Amount of damage applied when the current breath's temperature passes the 120K point
 
 #define RADIATION_SPEED_COEFFICIENT 0.025
+#define PHORONATION_SPEED_COEFFICIENT 0.0025
 
 /mob/living/carbon/human
 	var/oxygen_alert = 0
@@ -46,7 +47,7 @@
 		return
 	if (transforming)
 		return
-	if(last_hud_update > world.time)
+	if(last_hud_update < world.time)
 		last_hud_update = world.time + 15 SECONDS
 		update_action_buttons()
 	fire_alert = 0 //Reset this here, because both breathe() and handle_environment() have a chance to set it.
@@ -212,7 +213,7 @@
 		if(species.appearance_flags & RADIATION_GLOWS)
 			set_light(max(1,min(10,radiation/10)), max(1,min(20,radiation/20)), species.get_flesh_colour(src))
 		// END DOGSHIT SNOWFLAKE
-
+		/*
 		var/obj/item/organ/internal/diona/nutrients/rad_organ = locate() in internal_organs
 		if (rad_organ && !rad_organ.is_broken())
 			var/rads = radiation/25
@@ -226,7 +227,7 @@
 			nutrition = Clamp(nutrition, 0, 550)
 
 			return
-
+		*/
 		var/damage = 0
 		radiation -= 1 * RADIATION_SPEED_COEFFICIENT
 		if(prob(25))
@@ -270,6 +271,40 @@
 			if(!isSynthetic() && organs.len)
 				var/obj/item/organ/external/O = pick(organs)
 				if(istype(O)) O.add_autopsy_data("Radiation Poisoning", damage)
+
+		// Engagement is forever.
+		if (phoronation > 20)
+			if(prob(0.01 * phoronation))
+				if(chem_effects[CE_MIND] > 0)
+					to_chat(src, pick(
+                         "You feel calm.",
+                        "You feel pleasantly enagaged.",
+                        "You feel fine."))
+				else
+					to_chat(src, pick(
+                        "<span class='warning'>You feel shame.</span>",
+                        "<span class='warning'>You feel anxious.</span>",
+                        "<span class='warning'>You feel regret.</span>",
+                        "<span class='warning'>The ground beneath you feels unsteady.</span>",
+                        "<span class='warning'>The world flashes orange for a second.</span>"))
+		if (phoronation > 40)
+			if(prob(0.01 * phoronation))
+				if(chem_effects[CE_MIND] > 0)
+					to_chat(src, pick (
+                        "You feel calm.",
+                        "You feel quite engaged.",
+                        "You briefly think about the Rock."))
+				else
+					to_chat(src, pick(
+                        "<span class='warning'>The floor rattles under you, you struggle to maintain balance!</span>",
+                        "<span class='warning'>A whisper in your head... pain...</span>",
+                        "<span class='warning'>The silence of the Rock echoes in your mind.</span>",
+                        "<span class='warning'>You hear a mining drill in the distance.</span>",
+                        "<span class='warning'>You hear the squeal of a mining cyborg's gears.</span>",
+                        "<span class='warning'>The creature in your mind has thousands of teeth.</span>",
+                        "<span class='warning'>The ground angrily trembles beneath your feet.</span>",
+                        "<span class='warning'>You can see slugs, for a brief moment, as far as the eye can see.</span>"))
+					src.hallucination(50, 50)
 
 	/** breathing **/
 
@@ -1028,18 +1063,20 @@
 			if(I)
 				perpname = I.registered_name
 
-		var/datum/computer_file/crew_record/E = get_crewmember_record(perpname)
-		if(E)
-			switch(E.get_criminalStatus())
-				if("Arrest")
-					holder.icon_state = "hudwanted"
-				if("Incarcerated")
-					holder.icon_state = "hudprisoner"
-				if("Parolled")
-					holder.icon_state = "hudparolled"
-				if("Released")
-					holder.icon_state = "hudreleased"
-		hud_list[WANTED_HUD] = holder
+		var/datum/world_faction/faction = get_faction(src.GetFaction())
+		if(faction)
+			var/datum/computer_file/crew_record/E = faction.get_record(perpname)
+			if(E)
+				switch(E.get_criminalStatus())
+					if("Arrest")
+						holder.icon_state = "hudwanted"
+					if("Incarcerated")
+						holder.icon_state = "hudprisoner"
+					if("Parolled")
+						holder.icon_state = "hudparolled"
+					if("Released")
+						holder.icon_state = "hudreleased"
+			hud_list[WANTED_HUD] = holder
 
 	if (  BITTEST(hud_updateflag, IMPLOYAL_HUD) \
 	   || BITTEST(hud_updateflag,  IMPCHEM_HUD) \

@@ -39,14 +39,48 @@ var/datum/controller/ambient_controller/ambient_controller
 /datum/music_file/theclient
 	length = 4 MINUTES + 48 SECONDS
 	path = 'sound/ambience/new/neutral/the client (long, neutral).ogg'
+	
+/datum/music_file/action_01
+	length = 1 MINUTES + 45 SECONDS
+	path = 'sound/music/mine/action_01.ogg'
+/datum/music_file/action_02
+	length = 2 MINUTES
+	path = 'sound/music/mine/action_02.ogg'
+/datum/music_file/action_03
+	length = 1 MINUTES + 32 SECONDS
+	path = 'sound/music/mine/action_03.ogg'	
+/datum/music_file/action_04
+	length = 1 MINUTES + 49 SECONDS
+	path = 'sound/music/mine/action_04.ogg'	
+	
+/datum/music_file/amb_01
+	length = 1 MINUTES + 58 SECONDS
+	path = 'sound/music/mine/amb_01.ogg'		
+/datum/music_file/amb_02
+	length = 1 MINUTES + 43 SECONDS
+	path = 'sound/music/mine/amb_02.ogg'		
 
-
+/datum/music_file/silence_01
+	length = 1 MINUTES
+	path = 'sound/music/mine/silence_01.ogg'		
+/datum/music_file/silence_02
+	length = 1 MINUTES
+	path = 'sound/music/mine/silence_02.ogg'		
+/datum/music_file/silence_03
+	length = 1 MINUTES
+	path = 'sound/music/mine/silence_03.ogg'		
+	
+	
 /datum/music_controller
-	var/tone
+	var/tone = "none"
 	var/timetostop = 0
 	var/datum/music_file/lastplayed
+	var/override = 0
 /datum/music_controller/proc/should_play()
-	if(timetostop < world.time)
+	if(override)
+		if(timetostop < world.time)
+			return "override[override]"
+	if(timetostop < world.time && tone != "none")
 		return tone
 /datum/controller/ambient_controller
 	var/list/zlevel_data
@@ -54,6 +88,10 @@ var/datum/controller/ambient_controller/ambient_controller
 	var/list/dark
 	var/list/fun
 	var/list/action
+	var/list/override1
+	var/list/override2
+	var/list/override3
+	var/list/override4
 /datum/controller/ambient_controller/New()
 	action = list()
 	action |= new /datum/music_file/crystal_space()
@@ -69,18 +107,47 @@ var/datum/controller/ambient_controller/ambient_controller
 	neutral |= new /datum/music_file/factory()
 	neutral |= new /datum/music_file/jewels()
 	neutral |= new /datum/music_file/theclient()
-
+	override1 = list()
+	override1 |= new /datum/music_file/silence_01()
+	override1 |= new /datum/music_file/silence_02()
+	override1 |= new /datum/music_file/silence_03()
+	override2 = list()
+	override2 |= new /datum/music_file/amb_01()
+	override2 |= new /datum/music_file/amb_02()
+	override3 = list()
+	override3 |= new /datum/music_file/action_03()
+	override3 |= new /datum/music_file/action_04()
+	override4 = list()
+	override4 |= new /datum/music_file/action_01() 
+	override4 |= new /datum/music_file/action_02() 
+	
+	
 	zlevel_data = list()
-	zlevel_data["3"] = new /datum/music_controller()
+	zlevel_data["2"] = new /datum/music_controller()
+	zlevel_data["4"] = new /datum/music_controller()
 	zlevel_data["6"] = new /datum/music_controller()
-	zlevel_data["9"] = new /datum/music_controller()
+	zlevel_data["8"] = new /datum/music_controller()
+	zlevel_data["10"] = new /datum/music_controller()
 	zlevel_data["12"] = new /datum/music_controller()
-	zlevel_data["15"] = new /datum/music_controller()
+	zlevel_data["14"] = new /datum/music_controller()
+	zlevel_data["16"] = new /datum/music_controller()
 	zlevel_data["18"] = new /datum/music_controller()
-	zlevel_data["21"] = new /datum/music_controller()
+	zlevel_data["20"] = new /datum/music_controller()
+	zlevel_data["22"] = new /datum/music_controller()
 	zlevel_data["24"] = new /datum/music_controller()
-	zlevel_data["27"] = new /datum/music_controller()
-
+	zlevel_data["26"] = new /datum/music_controller()
+	zlevel_data["28"] = new /datum/music_controller()
+	zlevel_data["30"] = new /datum/music_controller()
+	zlevel_data["32"] = new /datum/music_controller()
+	zlevel_data["34"] = new /datum/music_controller()
+	zlevel_data["36"] = new /datum/music_controller()
+	zlevel_data["38"] = new /datum/music_controller()
+	zlevel_data["40"] = new /datum/music_controller()
+	zlevel_data["42"] = new /datum/music_controller()
+	zlevel_data["44"] = new /datum/music_controller()
+	zlevel_data["46"] = new /datum/music_controller()
+	zlevel_data["48"] = new /datum/music_controller()
+	zlevel_data["50"] = new /datum/music_controller()
 	START_PROCESSING(SSprocessing, src)
 
 /datum/controller/ambient_controller/Destroy()
@@ -113,7 +180,6 @@ var/datum/controller/ambient_controller/ambient_controller
 						choices -= controller.lastplayed
 					to_play[x] = pick(choices)
 					to_play["[text2num(x)-1]"] = to_play[x]
-					to_play["[text2num(x)-2]"] = to_play[x]
 					controller.lastplayed = to_play[x]
 					controller.timetostop = controller.lastplayed.length + world.time
 				if("fun")
@@ -122,7 +188,6 @@ var/datum/controller/ambient_controller/ambient_controller
 						choices -= controller.lastplayed
 					to_play[x] = pick(choices)
 					to_play["[text2num(x)-1]"] = to_play[x]
-					to_play["[text2num(x)-2]"] = to_play[x]
 					controller.lastplayed = to_play[x]
 					controller.timetostop = controller.lastplayed.length + world.time
 				if("dark")
@@ -131,7 +196,6 @@ var/datum/controller/ambient_controller/ambient_controller
 						choices -= controller.lastplayed
 					to_play[x] = pick(choices)
 					to_play["[text2num(x)-1]"] = to_play[x]
-					to_play["[text2num(x)-2]"] = to_play[x]
 					controller.lastplayed = to_play[x]
 					controller.timetostop = controller.lastplayed.length + world.time
 				if("action")
@@ -140,12 +204,47 @@ var/datum/controller/ambient_controller/ambient_controller
 						choices -= controller.lastplayed
 					to_play[x] = pick(choices)
 					to_play["[text2num(x)-1]"] = to_play[x]
-					to_play["[text2num(x)-2]"] = to_play[x]
 					controller.lastplayed = to_play[x]
 					controller.timetostop = controller.lastplayed.length + world.time
+				if("override1")
+					var/list/choices = override1.Copy()
+					if(choices.len > 1)
+						choices -= controller.lastplayed
+					to_play[x] = pick(choices)
+					to_play["[text2num(x)-1]"] = to_play[x]
+					controller.lastplayed = to_play[x]
+					controller.timetostop = controller.lastplayed.length + world.time
+				if("override2")
+					var/list/choices = override2.Copy()
+					if(choices.len > 1)
+						choices -= controller.lastplayed
+					to_play[x] = pick(choices)
+					to_play["[text2num(x)-1]"] = to_play[x]
+					controller.lastplayed = to_play[x]
+					controller.timetostop = controller.lastplayed.length + world.time
+				if("override3")
+					var/list/choices = override3.Copy()
+					if(choices.len > 1)
+						choices -= controller.lastplayed
+					to_play[x] = pick(choices)
+					to_play["[text2num(x)-1]"] = to_play[x]
+					controller.lastplayed = to_play[x]
+					controller.timetostop = controller.lastplayed.length + world.time
+				if("override4")
+					var/list/choices = override4.Copy()
+					if(choices.len > 1)
+						choices -= controller.lastplayed
+					to_play[x] = pick(choices)
+					to_play["[text2num(x)-1]"] = to_play[x]
+					controller.lastplayed = to_play[x]
+					controller.timetostop = controller.lastplayed.length + world.time
+				
+				
 		for(var/client/C in GLOB.clients)
+			if(!(C && C.get_preference_value(/datum/client_preference/play_ambiance) == GLOB.PREF_YES))	continue
 			var/mob/M = C.mob
 			if(M && to_play["[M.z]"] && C.get_preference_value(/datum/client_preference/play_ambiance) == GLOB.PREF_YES)
 				var/turf/T = M.loc
 				var/datum/music_file/file = to_play["[M.z]"]
-				M.playsound_local(T, sound(file.path, repeat = 0, wait = 0, volume = 15, channel = 1))
+				if(file)
+					M.playsound_local(T, sound(file.path, repeat = 0, wait = 0, volume = 30, channel = 1))

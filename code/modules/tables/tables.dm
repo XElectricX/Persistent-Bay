@@ -28,9 +28,9 @@
 
 /obj/structure/table/New()
 	if(istext(material))
-		material = get_material_by_name(material)
+		material = SSmaterials.get_material_by_name(material)
 	if(istext(reinforced))
-		reinforced = get_material_by_name(reinforced)
+		reinforced = SSmaterials.get_material_by_name(reinforced)
 	..()
 
 /obj/structure/table/proc/update_material()
@@ -236,7 +236,7 @@
 		return M
 	user.visible_message("<span class='notice'>\The [user] removes the [M.display_name] [what] from \the [src].</span>",
 	                              "<span class='notice'>You remove the [M.display_name] [what] from \the [src].</span>")
-	new M.stack_type(src.loc)
+	M.place_sheet(src.loc)
 	manipulating = 0
 	return null
 
@@ -289,7 +289,7 @@
 	if(full_return || prob(20))
 		new /obj/item/stack/material/steel(src.loc)
 	else
-		var/material/M = get_material_by_name(DEFAULT_WALL_MATERIAL)
+		var/material/M = SSmaterials.get_material_by_name(DEFAULT_WALL_MATERIAL)
 		S = M.place_shard(loc)
 		if(S) shards += S
 	qdel(src)
@@ -310,7 +310,7 @@
 		// Standard table image
 		if(material)
 			for(var/i = 1 to 4)
-				I = image(icon, "[material.icon_base]_[connections[i]]", dir = 1<<(i-1))
+				I = image(icon, "[material.icon_table]_[connections[i]]", dir = 1<<(i-1))
 				if(material.icon_colour) I.color = material.icon_colour
 				I.alpha = 255 * material.opacity
 				overlays += I
@@ -318,7 +318,7 @@
 		// Reinforcements
 		if(reinforced)
 			for(var/i = 1 to 4)
-				I = image(icon, "[reinforced.icon_reinf]_[connections[i]]", dir = 1<<(i-1))
+				I = image(icon, "reinf_over_[connections[i]]", dir = 1<<(i-1))
 				I.color = reinforced.icon_colour
 				I.alpha = 255 * reinforced.opacity
 				overlays += I

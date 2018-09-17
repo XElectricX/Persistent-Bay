@@ -280,15 +280,13 @@ var/global/datum/controller/gameticker/ticker
 	proc/create_characters()
 		message_admins("create_characters ran")
 		for(var/mob/new_player/player in GLOB.player_list)
+			player.panel.close()
+			player.newPlayerPanel()
 			if(player && player.ready && player.mind)
-				if(player.mind.assigned_role=="AI")
-					player.close_spawn_windows()
-					player.AIize()
-				else
-					if(player.create_character())
-						qdel(player)
+				player.loadCharacter()
 			else
 				message_admins("skipping player [player], [player.ready], [player.mind]")
+
 	proc/collect_minds()
 		for(var/mob/living/player in GLOB.player_list)
 			if(player.mind)
@@ -329,25 +327,6 @@ var/global/datum/controller/gameticker/ticker
 
 		if(!mode.explosion_in_progress && game_finished && (mode_finished || post_game))
 			current_state = GAME_STATE_FINISHED
-
-			for(var/mob/mobbie in GLOB.all_cryo_mobs)
-				if(!mobbie.stored_ckey) continue
-				var/save_path = load_path(mobbie.stored_ckey, "")
-				if(fexists("[save_path][mobbie.save_slot].sav"))
-					fdel("[save_path][mobbie.save_slot].sav")
-				var/savefile/f = new("[save_path][mobbie.save_slot].sav")
-				f << mobbie
-
-			for(var/datum/mind/employee in minds)
-				if(!employee.current || !employee.current.ckey) continue
-				var/save_path = load_path(employee.current.ckey, "")
-				if(fexists("[save_path][employee.current.save_slot].sav"))
-					fdel("[save_path][employee.current.save_slot].sav")
-				var/savefile/f = new("[save_path][employee.current.save_slot].sav")
-				f << employee.current
-				to_chat(employee.current, "You character has been saved.")
-
-			sleep(20)
 			Save_World()
 			Master.SetRunLevel(RUNLEVEL_POSTGAME)
 

@@ -71,20 +71,21 @@
 				continue
 			M.ingested.remove_reagent(R.type, removed * effect)
 
-/datum/reagent/carbon/touch_turf(var/turf/T)
+/*/datum/reagent/carbon/touch_turf(var/turf/T) // commented out to prevent deleting the puddle
 	if(!istype(T, /turf/space))
 		var/obj/effect/decal/cleanable/dirt/dirtoverlay = locate(/obj/effect/decal/cleanable/dirt, T)
 		if (!dirtoverlay)
 			dirtoverlay = new/obj/effect/decal/cleanable/dirt(T)
 			dirtoverlay.alpha = volume * 30
 		else
-			dirtoverlay.alpha = min(dirtoverlay.alpha + volume * 30, 255)
+			dirtoverlay.alpha = min(dirtoverlay.alpha + volume * 30, 255)*/
 
 /datum/reagent/copper
 	name = "Copper"
 	description = "A highly ductile metal."
 	taste_description = "copper"
 	color = "#6e3b08"
+	reagent_state = SOLID
 
 /datum/reagent/ethanol
 	name = "Ethanol" //Parent class for all alcoholic reagents.
@@ -101,6 +102,8 @@
 	var/adj_temp = 0
 	var/targ_temp = 310
 	var/halluci = 0
+
+	base_boil_point = 351.5
 
 	glass_name = "ethanol"
 	glass_desc = "A well-known alcohol with a variety of applications."
@@ -270,7 +273,7 @@
 				if(prob(50))
 					M.apply_effect(50, IRRADIATE, blocked = 0) // curing it that way may kill you instead
 					var/absorbed = 0
-					var/obj/item/organ/internal/diona/nutrients/rad_organ = locate() in M.internal_organs
+					var/obj/item/organ/internal/xenos/nutrients/rad_organ = locate() in M.internal_organs
 					if(rad_organ && !rad_organ.is_broken())
 						absorbed = 1
 					if(!absorbed)
@@ -367,6 +370,9 @@
 			to_chat(M, "<span class='warning'>\The [O] melts.</span>")
 		qdel(O)
 		remove_self(meltdose) // 10 units of acid will not melt EVERYTHING on the tile
+
+/datum/reagent/acid/touch_target(var/mob/living/M, var/amount, var/bodypart, var/blocked)
+	M.apply_damage(power*amount*0.05, BURN, bodypart, blocked) //for reference, a puddle of 120(using 30% on touch) pure acid (power 5) volume using normal shoes (perm 0.5) will deal 4,5 BURN damage every half a second. the last multiplier is for balancing purposes
 
 /datum/reagent/acid/hydrochloric //Like sulfuric, but less toxic and more acidic.
 	name = "Hydrochloric Acid"

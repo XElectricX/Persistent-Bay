@@ -10,7 +10,7 @@
 
 /obj/structure/bed/chair/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	..()
-	if(!padding_material && istype(W, /obj/item/assembly/shock_kit))
+	if(!padding_material && type == /obj/structure/bed/chair && istype(W, /obj/item/assembly/shock_kit))
 		var/obj/item/assembly/shock_kit/SK = W
 		if(!SK.status)
 			to_chat(user, "<span class='notice'>\The [SK] is not ready to be attached!</span>")
@@ -214,8 +214,3 @@
 /obj/structure/bed/chair/wood/wings
 	base_icon = "wooden_chair_wings"
 	icon_state = "wooden_chair_wings_preview"
-
-/obj/structure/bed/chair/bogani
-	desc = "A strange chair, not from around here."
-	base_icon = "bogchair"
-	icon_state = "bogchair_preview"
